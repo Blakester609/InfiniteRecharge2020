@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ControlPanelColorSensingCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.SimpleAuton;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
@@ -27,6 +29,9 @@ public class RobotContainer {
   private final Joystick m_joystick = new Joystick(Constants.OI.joyPort);
   private final DriveTrain sillyDriveTrainThing = new DriveTrain();
   private final DriveCommand m_driveCommand = new DriveCommand(sillyDriveTrainThing ,m_joystick);
+
+  private final Vision cameraVision = new Vision();
+  private final ControlPanelColorSensingCommand colorSensingCommand = new ControlPanelColorSensingCommand(cameraVision);
   // sillyDriveTrainThing = DriveTrain()
   //subsystem = sillyDriveTrainThing
   //m_drivetrain = subsystem = sillyDriveTrainThing
@@ -39,8 +44,10 @@ public class RobotContainer {
    */
   public RobotContainer() {
     CommandScheduler.getInstance().setDefaultCommand(sillyDriveTrainThing, m_driveCommand);
+    CommandScheduler.getInstance().setDefaultCommand(cameraVision, colorSensingCommand);
     // Configure the button bindings
     configureButtonBindings();
+
   }
 
   /**

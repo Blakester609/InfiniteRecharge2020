@@ -27,8 +27,11 @@ public class DriveTrain extends SubsystemBase {
     motor4 = new DMC60(Constants.Drive.motor4dmc60);
     leftDrive = new SpeedControllerGroup(motor1, motor3);
     rightDrive = new SpeedControllerGroup(motor2, motor4);
-    diffDrive = new DifferentialDrive(leftDrive, rightDrive);
+    diffDrive = new DifferentialDrive(motor1, motor2);
   }
+
+
+  
   public void setArcadeDrive(double joyForward, double joyTurn){
        diffDrive.arcadeDrive(joyForward, joyTurn);
   }
