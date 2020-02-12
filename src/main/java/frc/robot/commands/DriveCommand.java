@@ -33,7 +33,7 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
     double joyForward = m_joystick.getY();
-    double joyTurn = m_joystick.getX();
+    double joyTurn = m_joystick.getZ();
     m_drivetrain.setArcadeDrive(joyForward, joyTurn);
   }
 
