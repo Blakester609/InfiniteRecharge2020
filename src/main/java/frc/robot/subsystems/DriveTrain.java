@@ -6,29 +6,27 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-import  frc.robot.Constants;
+
+import frc.robot.Constants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.DMC60;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.Victor;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class DriveTrain extends SubsystemBase {
-  private Victor motor1;
-  private Victor motor2;
-  private Victor motor3;
-  private DMC60 motor4;
-  private SpeedControllerGroup leftDrive;
-  private SpeedControllerGroup rightDrive;
+  private WPI_TalonFX motor1;
+  private WPI_TalonFX motor2;
+  private WPI_TalonFX motor3;
+  private WPI_TalonFX motor4;
   private DifferentialDrive diffDrive;
   public DriveTrain() {
-    motor1 = new Victor(Constants.Drive.motor1victor);
-    motor2 = new Victor(Constants.Drive.motor2victor);
-    motor3 = new Victor(Constants.Drive.motor3victor);
-    motor4 = new DMC60(Constants.Drive.motor4dmc60);
-    leftDrive = new SpeedControllerGroup(motor1, motor3);
-    rightDrive = new SpeedControllerGroup(motor2, motor4);
-    diffDrive = new DifferentialDrive(motor1, motor2);
-  }
+  //   motor1 = new WPI_TalonFX(Constants.Drive.motor1);
+  //   motor2 = new WPI_TalonFX(Constants.Drive.motor2);
+  //   motor3 = new WPI_TalonFX(Constants.Drive.motor3);
+  //   motor4 = new WPI_TalonFX(Constants.Drive.motor4);
+  //   motor3.follow(motor1);
+  //   motor4.follow(motor2);
+  //   diffDrive = new DifferentialDrive(motor1, motor2);
+   }
   public void setArcadeDrive(double joyForward, double joyTurn){
        diffDrive.arcadeDrive(-joyForward, joyTurn);
   }

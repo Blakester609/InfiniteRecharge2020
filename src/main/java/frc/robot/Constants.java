@@ -17,10 +17,10 @@ package frc.robot;
  */
 public final class Constants {
     public static final class Drive {
-        public static final int motor1victor = 1;
-        public static final int motor2victor = 2;
-        public static final int motor3victor = 3;
-        public static final int motor4dmc60 = 4;
+        public static final int motor1 = 1;
+        public static final int motor2 = 2;
+        public static final int motor3 = 3;
+        public static final int motor4 = 4;
     }
     public static final class OI {
         public static final int joyPort = 0;
