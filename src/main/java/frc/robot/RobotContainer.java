@@ -27,8 +27,8 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Joystick m_joystick = new Joystick(Constants.OI.joyPort);
-  private final DriveTrain sillyDriveTrainThing = new DriveTrain();
-  private final DriveCommand m_driveCommand = new DriveCommand(sillyDriveTrainThing ,m_joystick);
+  // private final DriveTrain sillyDriveTrainThing = new DriveTrain();
+  // private final DriveCommand m_driveCommand = new DriveCommand(sillyDriveTrainThing ,m_joystick);
 
   private final Vision cameraVision = new Vision();
   private final ControlPanelColorSensingCommand colorSensingCommand = new ControlPanelColorSensingCommand(cameraVision);
@@ -38,12 +38,12 @@ public class RobotContainer {
   /// m_drivetrain = sillyDriveTrainThing
 
 
-  private final SimpleAuton m_autoCommand = new SimpleAuton(sillyDriveTrainThing);
+  // private final SimpleAuton m_autoCommand = new SimpleAuton(sillyDriveTrainThing);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    CommandScheduler.getInstance().setDefaultCommand(sillyDriveTrainThing, m_driveCommand);
+   // CommandScheduler.getInstance().setDefaultCommand(sillyDriveTrainThing, m_driveCommand);
     CommandScheduler.getInstance().setDefaultCommand(cameraVision, colorSensingCommand);
     // Configure the button bindings
     configureButtonBindings();
@@ -67,7 +67,8 @@ public class RobotContainer {
    */
  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    //return m_autoCommand;
+    return null;
   }
 }
 

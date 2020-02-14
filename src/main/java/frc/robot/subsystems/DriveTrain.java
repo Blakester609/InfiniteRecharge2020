@@ -21,13 +21,13 @@ public class DriveTrain extends SubsystemBase {
   private SpeedControllerGroup rightDrive;
   private DifferentialDrive diffDrive;
   public DriveTrain() {
-    motor1 = new Victor(Constants.Drive.motor1victor);
-    motor2 = new Victor(Constants.Drive.motor2victor);
-    motor3 = new Victor(Constants.Drive.motor3victor);
-    motor4 = new DMC60(Constants.Drive.motor4dmc60);
-    leftDrive = new SpeedControllerGroup(motor1, motor3);
-    rightDrive = new SpeedControllerGroup(motor2, motor4);
-    diffDrive = new DifferentialDrive(motor1, motor2);
+    // motor1 = new Victor(Constants.Drive.motor1victor);
+    // motor2 = new Victor(Constants.Drive.motor2victor);
+    // motor3 = new Victor(Constants.Drive.motor3victor);
+    // motor4 = new DMC60(Constants.Drive.motor4dmc60);
+    // leftDrive = new SpeedControllerGroup(motor1, motor3);
+    // rightDrive = new SpeedControllerGroup(motor2, motor4);
+    // diffDrive = new DifferentialDrive(motor1, motor2);
   }
 
 
