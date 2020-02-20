@@ -31,7 +31,7 @@ public final class Constants {
         public static final int motor1 = 0;
         public static final int motor2 = 0;
     }
-    public static final class SpinnyShooty {
+    public static final class Shooty {
         public static final int shootyMotor = 0;
         public static final int suckyMotor = 0;
         public static final int spinnyMotor = 0;

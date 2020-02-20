@@ -17,7 +17,6 @@ public class ShootyCommand extends CommandBase {
   public final ShootyThing m_shootyThing;
   public ShootyCommand(ShootyThing subsystem) {
     m_shootyThing = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_shootyThing);
   }
 
@@ -29,6 +28,7 @@ public class ShootyCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shootyThing.shooty();
   }
 
   // Called once the command ends or is interrupted.

@@ -30,6 +30,12 @@ public class LiftyCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (upDown == "up"){
+      m_liftyThing.armUp();
+    }
+    else if (upDown == "down"){
+      m_liftyThing.armDown();
+    }
   }
 
   // Called once the command ends or is interrupted.

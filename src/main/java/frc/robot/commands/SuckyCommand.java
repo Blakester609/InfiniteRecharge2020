@@ -29,6 +29,8 @@ public class SuckyCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shootyThing.sucky();
+    //There will also be stuff with sensing how many balls there are in the robot, but I don't know how to do that yet. Maybe. 
   }
 
   // Called once the command ends or is interrupted.
