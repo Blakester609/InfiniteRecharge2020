@@ -106,6 +106,10 @@ public class DriveTrain extends SubsystemBase {
     double rightMotorVolts = motor2.getMotorOutputVoltage();
     double autospeed = autoSpeedEntry.getDouble(0);
     priorAutospeed = autospeed;
+    diffDrive.tankDrive(
+      (rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, autospeed,
+      false
+    );
     numberArray[0] = now;
     numberArray[1] = battery;
     numberArray[2] = autospeed;
