@@ -39,6 +39,8 @@ public final class Constants {
     }
     public static final class Limelight{
         public static final double cameraAngle = 10;
+        //Measurements in centimeters
         public static final double targetHeight = 211.455;
+        public static final double cameraHeight = 87.63;
     }
 }

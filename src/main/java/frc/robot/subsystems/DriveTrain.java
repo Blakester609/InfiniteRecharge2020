@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.Constants.Drive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -65,8 +66,10 @@ public class DriveTrain extends SubsystemBase {
     double v = this.validTarget.getDouble(0.0);
     return new DriveTrain.LLData(x, y, area, v, skew);
   }
-  public void estimatingDistance(){
-    
+  public double estimatingDistance(){
+    double distance;
+    distance = (Constants.Limelight.targetHeight - Constants.Limelight.cameraHeight)/(Math.tan(Constants.Limelight.cameraAngle+this.getData().yOffset));
+    return distance;
   }
 
   public void setArcadeDrive(double joyForward, double joyTurn){
