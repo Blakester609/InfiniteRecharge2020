@@ -7,38 +7,32 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShootyThing;
 
-public class ShootyCommand extends CommandBase {
+public class TopSensor extends CommandBase {
   /**
-   * Creates a new ShootyCommand.
+   * Creates a new TopSensor.
    */
-  public final ShootyThing m_shootyThing;
-  public ShootyCommand(ShootyThing subsystem) {
+  private final ShootyThing m_shootyThing;
+  public TopSensor(ShootyThing subsystem) {
     m_shootyThing = subsystem;
     addRequirements(m_shootyThing);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
-  boolean isMotorOn = false;
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isMotorOn = !isMotorOn;
-    if(isMotorOn) {
-      m_shootyThing.sucky(-1.0);
-      m_shootyThing.shooty();
-    } else {
-      m_shootyThing.sucky(0.0);
-      m_shootyThing.shootyStop();
-    }
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shootyThing.printValue();
+    if(m_shootyThing.getTopSensorReading()) {
+      m_shootyThing.suckyStop();
+    }
     
   }
 
@@ -50,6 +44,6 @@ public class ShootyCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

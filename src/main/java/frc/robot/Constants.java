@@ -17,10 +17,10 @@ package frc.robot;
  */
 public final class Constants {
     public static final class Drive {
-        public static final int motor1 = 1;
+        public static final int motor1 = 0;
         public static final int motor2 = 2;
-        public static final int motor3 = 3;
-        public static final int motor4 = 4;
+        public static final int motor3 = 1;
+        public static final int motor4 = 3;
     }
     public static final class OI {
         public static final int joyPort = 0;
@@ -32,8 +32,9 @@ public final class Constants {
         public static final int motor2 = 0;
     }
     public static final class Shooty {
-        public static final int shootyMotor = 0;
-        public static final int suckyMotor = 0;
+        public static final int shootyMotor = 4;
+        public static final int suckyMotor = 5;
         public static final int spinnyMotor = 0;
+        public static final int topShooterSensorPort = 0;
     }
 }
