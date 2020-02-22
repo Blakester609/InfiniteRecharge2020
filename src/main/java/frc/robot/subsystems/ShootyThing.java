@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -37,9 +39,13 @@ public class ShootyThing extends SubsystemBase {
     yOffset = table.getEntry("ty");
     area = table.getEntry("area");
     topSensor = new DigitalInput(Constants.Shooty.topShooterSensorPort);
+    shootyMotor.configFactoryDefault();
+    shootyMotor.setSensorPhase(false);
+    shootyMotor.setInverted(TalonFXInvertType.Clockwise);
+    shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
   }
   public void shooty(){
-    shootyMotor.set(-1.0);
+    shootyMotor.set(1.0);
     //put Limelight stuff in later
   }
   public boolean getTopSensorReading() {
@@ -78,6 +84,9 @@ public class ShootyThing extends SubsystemBase {
     } else if(isLoading == false) {
       suckyStop();
     }
+  }
+  public double getShootyEncoderVel(){
+    return shootyMotor.getSelectedSensorVelocity(0);
   }
   @Override
   public void periodic() {

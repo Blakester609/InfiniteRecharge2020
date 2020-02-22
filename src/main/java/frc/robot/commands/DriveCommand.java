@@ -32,9 +32,10 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double sliderValue = -1.0 * m_joystick.getRawAxis(3);
     double joyForward = m_joystick.getY();
     double joyTurn = m_joystick.getZ();
-    m_drivetrain.setArcadeDrive(joyForward, joyTurn);
+    m_drivetrain.setArcadeDrive(sliderValue * joyForward, sliderValue * joyTurn);
   }
 
   // Called once the command ends or is interrupted.

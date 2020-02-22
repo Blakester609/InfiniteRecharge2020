@@ -27,8 +27,7 @@ public class ShootyCommand extends CommandBase {
   public void initialize() {
     isMotorOn = !isMotorOn;
     if(isMotorOn) {
-      m_shootyThing.sucky(-1.0);
-      m_shootyThing.shooty();
+      m_shootyThing.shooty();  
     } else {
       m_shootyThing.sucky(0.0);
       m_shootyThing.shootyStop();
@@ -39,17 +38,26 @@ public class ShootyCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(m_shootyThing.getShootyEncoderVel());
+    if (m_shootyThing.getShootyEncoderVel() >= 19140){
+        m_shootyThing.sucky(-1.0); 
+        isMotorOn = true;    
+    } 
+    
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shootyThing.shootyStop();
+    m_shootyThing.suckyStop();
+    isMotorOn =false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return !isMotorOn;
   }
 }
