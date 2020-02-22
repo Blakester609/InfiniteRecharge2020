@@ -37,4 +37,8 @@ public final class Constants {
         public static final int spinnyMotor = 0;
         public static final int topShooterSensorPort = 0;
     }
+    public static final class Limelight{
+        public static final double cameraAngle = 10;
+        public static final double targetHeight = 211.455;
+    }
 }

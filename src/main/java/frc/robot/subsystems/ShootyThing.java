@@ -21,23 +21,16 @@ import edu.wpi.first.wpilibj.PWMSpeedController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class ShootyThing extends SubsystemBase {
-  // This class is full of errors because I don't know what kind of motors the robot has yet. They'll be taken care of later.
   public WPI_TalonFX shootyMotor;
   public VictorSPX suckyMotor;
   public VictorSPX spinnyMotor;
-  public NetworkTable table;
-  public NetworkTableEntry xOffset;
-  public NetworkTableEntry yOffset;
-  public NetworkTableEntry area;
+ 
   public DigitalInput topSensor;
   public ShootyThing() {
     shootyMotor = new WPI_TalonFX(Constants.Shooty.shootyMotor);
     suckyMotor = new VictorSPX(Constants.Shooty.suckyMotor);
     spinnyMotor = new VictorSPX(Constants.Shooty.spinnyMotor);
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    xOffset = table.getEntry("tx");
-    yOffset = table.getEntry("ty");
-    area = table.getEntry("area");
+    
     topSensor = new DigitalInput(Constants.Shooty.topShooterSensorPort);
     shootyMotor.configFactoryDefault();
     shootyMotor.setSensorPhase(false);
@@ -88,6 +81,7 @@ public class ShootyThing extends SubsystemBase {
   public double getShootyEncoderVel(){
     return shootyMotor.getSelectedSensorVelocity(0);
   }
+  
   @Override
   public void periodic() {
 
