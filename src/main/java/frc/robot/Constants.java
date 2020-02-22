@@ -21,7 +21,7 @@ public final class Constants {
         public static final int motor2 = 2;
         public static final int motor3 = 1;
         public static final int motor4 = 3;
-        public static final double WHEEL_DIAMETER = 139.27;
+        public static final double WHEEL_DIAMETER = 13.927;
         public static final double ENCODER_EDGES_PER_REV = 2048;
         public static final int PIDIDX = 0;
     }
