@@ -22,14 +22,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class ShootyThing extends SubsystemBase {
   // This class is full of errors because I don't know what kind of motors the robot has yet. They'll be taken care of later.
-  public WPI_TalonFX shootyMotor;
-  public VictorSPX suckyMotor;
-  public VictorSPX spinnyMotor;
-  public NetworkTable table;
-  public NetworkTableEntry xOffset;
-  public NetworkTableEntry yOffset;
-  public NetworkTableEntry area;
-  public DigitalInput topSensor;
+  private WPI_TalonFX shootyMotor;
+  private VictorSPX suckyMotor;
+  private VictorSPX spinnyMotor;
+  private NetworkTable table;
+  private NetworkTableEntry xOffset;
+  private NetworkTableEntry yOffset;
+  private NetworkTableEntry area;
+  private DigitalInput topSensor;
+
   public ShootyThing() {
     shootyMotor = new WPI_TalonFX(Constants.Shooty.shootyMotor);
     suckyMotor = new VictorSPX(Constants.Shooty.suckyMotor);
