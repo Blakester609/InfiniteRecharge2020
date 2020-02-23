@@ -10,11 +10,13 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class LiftyThing extends SubsystemBase {
   private CANSparkMax leftMotor;
   private CANSparkMax rightMotor;
+
     public LiftyThing() {
       leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
       rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
@@ -26,6 +28,7 @@ public class LiftyThing extends SubsystemBase {
   public void armDown(){
     rightMotor.set(-0.5);
   }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

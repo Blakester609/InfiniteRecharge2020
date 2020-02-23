@@ -30,6 +30,7 @@ public final class Constants {
     public static final class Lifty {
         public static final int motor1 = 0;
         public static final int motor2 = 0;
+    
     }
     public static final class Shooty {
         public static final int shootyMotor = 4;
@@ -41,6 +42,8 @@ public final class Constants {
         public static final double cameraAngle = 10;
         //Measurements in centimeters
         public static final double targetHeight = 211.455;
-        public static final double cameraHeight = 87.63;
+        public static final double cameraHeight = 93.98;
+        public static final double kpAim = 0.1;
+        public static final double kpDistance = 0.1;
     }
 }

@@ -75,6 +75,9 @@ public class DriveTrain extends SubsystemBase {
   public void setArcadeDrive(double joyForward, double joyTurn){
        diffDrive.arcadeDrive(-joyForward, joyTurn);
   }
+  public void aimingInRange(){
+    
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
