@@ -29,8 +29,8 @@ public final class Constants {
         public static final int yAxis = 1;
     }
     public static final class Lifty {
-        public static final int motor1 = 0;
-        public static final int motor2 = 0;
+        public static final int motor1 = 10;
+        public static final int motor2 = 11;
 
         public static final int frontBallGate = 0;
         public static final int backBallGate = 1;

@@ -24,9 +24,9 @@ public class LiftyThing extends SubsystemBase {
   private boolean clawTwoOn = false;
   private boolean liftStopPistonOn = false;
     public LiftyThing() {
-      // leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
-      // rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
-      // leftMotor.follow(rightMotor); 
+      leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
+      rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
+       leftMotor.follow(rightMotor); 
       //this is so I wouldn't have to set both to the same value
       clawOne = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawOne);
       clawTwo = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawTwo);
@@ -38,6 +38,7 @@ public class LiftyThing extends SubsystemBase {
   }
   public void armUp(){
     rightMotor.set(0.5);
+    
   }
   public void armDown(){
     rightMotor.set(-0.5);
