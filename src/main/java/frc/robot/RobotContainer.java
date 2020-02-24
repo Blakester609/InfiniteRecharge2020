@@ -83,8 +83,8 @@ public class RobotContainer {
 
     shootyButton = new JoystickButton(m_joystick, 1);
     suckyButton = new JoystickButton(m_joystick, 2);
-    spinnyClockButton = new JoystickButton(m_joystick, 4);
-    spinnyCounterclockButton = new JoystickButton(m_joystick, 3);
+    spinnyClockButton = new JoystickButton(m_joystick, 6);
+    spinnyCounterclockButton = new JoystickButton(m_joystick, 5);
     liftyUpButton = new JoystickButton(m_joystick, 9);
     liftyDownButton = new JoystickButton(m_joystick, 11);
     clawOneOnButton = new JoystickButton(m_joystick, 3);

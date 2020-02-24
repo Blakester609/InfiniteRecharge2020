@@ -81,7 +81,7 @@ public class ShootyThing extends SubsystemBase {
 
   public void startStopSuckyThing(boolean isLoading) {
     if(isLoading) {
-      sucky(-0.7);
+      sucky(-0.65);
     } else if(isLoading == false) {
       suckyStop();
     }
