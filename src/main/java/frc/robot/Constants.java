@@ -28,6 +28,7 @@ public final class Constants {
     }
     public static final class OI {
         public static final int joyPort = 0;
+        public static final int climbingJoystick = 1;
         public static final int xAxis = 0;
         public static final int yAxis = 1;
     }

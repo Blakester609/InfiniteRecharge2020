@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Joystick m_joystick = new Joystick(Constants.OI.joyPort);
+  private final Joystick m_climbingJoystick = new Joystick(Constants.OI.climbingJoystick);
   
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final DriveCommand m_driveCommand = new DriveCommand(m_driveTrain ,m_joystick);
