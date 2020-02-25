@@ -19,6 +19,7 @@ import frc.robot.commands.ShootyCommand;
 import frc.robot.commands.SimpleAuton;
 import frc.robot.commands.SpinnyCommand;
 import frc.robot.commands.SuckyCommand;
+import frc.robot.commands.SuckyWithSensor;
 import frc.robot.commands.TopSensor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.LiftyThing;
@@ -43,6 +44,7 @@ public class RobotContainer {
   private final ShootyThing m_shootyThing = new ShootyThing();
   private final ShootyCommand m_shootyCommand = new ShootyCommand(m_shootyThing);
   private final SuckyCommand m_suckyCommand = new SuckyCommand(m_shootyThing);
+  private final SuckyWithSensor m_suckyWithSensorCommand = new SuckyWithSensor(m_shootyThing);
   private final SpinnyCommand m_leftspinnyCommand = new SpinnyCommand(m_shootyThing, "left");
   private final SpinnyCommand m_rightspinnyCommand = new SpinnyCommand(m_shootyThing, "right");
   private final TopSensor m_topSensor = new TopSensor(m_shootyThing);
@@ -57,7 +59,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
     CommandScheduler.getInstance().setDefaultCommand(m_driveTrain, m_driveCommand);
-    CommandScheduler.getInstance().setDefaultCommand(m_shootyThing, m_topSensor);
+    CommandScheduler.getInstance().setDefaultCommand(m_shootyThing, m_suckyWithSensorCommand);
     // Configure the button bindings
     configureButtonBindings();
   }

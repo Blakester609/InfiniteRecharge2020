@@ -19,6 +19,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PWMSpeedController;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class ShootyThing extends SubsystemBase {
@@ -32,6 +34,8 @@ public class ShootyThing extends SubsystemBase {
   private NetworkTableEntry area;
   private DigitalInput topSensor;
   private ColorSensorV3 colorSensor;
+  private ColorSensorV3 colorSensor2;
+  private Color detectedColor;
 
   public ShootyThing() {
     shootyMotor = new WPI_TalonFX(Constants.Shooty.shootyMotor);
@@ -46,7 +50,8 @@ public class ShootyThing extends SubsystemBase {
     shootyMotor.setSensorPhase(false);
     shootyMotor.setInverted(TalonFXInvertType.Clockwise);
     shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
-    
+    colorSensor = new ColorSensorV3(Port.kOnboard);
+    colorSensor2 = new ColorSensorV3(Port.kMXP);
   }
 
 
@@ -84,6 +89,21 @@ public class ShootyThing extends SubsystemBase {
     System.out.println(topSensor.get());
   }
 
+  public void getColorFromSensor() {
+    detectedColor = colorSensor.getColor();
+    
+    System.out.println("Color From sensor: "+ detectedColor);
+    
+  }
+
+  public double[] detectInfraredFromSensor() {
+    double ir = colorSensor.getIR();
+    double ir2 = colorSensor2.getIR();
+    System.out.println("Infrared: "+ ir);
+    double[] irValues = {ir, ir2};
+    return irValues;
+  }
+
   public void startStopSuckyThing(boolean isLoading) {
     if(isLoading) {
       sucky(-0.65);
@@ -96,7 +116,7 @@ public class ShootyThing extends SubsystemBase {
   }
   @Override
   public void periodic() {
-
+    getColorFromSensor();
     // This method will be called once per scheduler run
     //printValue();
   }

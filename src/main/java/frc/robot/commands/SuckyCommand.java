@@ -40,6 +40,7 @@ public class SuckyCommand extends CommandBase {
       motorOn = false;
       m_shootyThing.startStopSuckyThing(motorOn);
     }
+    m_shootyThing.getColorFromSensor();
     
     
     //There will also be stuff with sensing how many balls there are in the robot, but I don't know how to do that yet. Maybe. 
