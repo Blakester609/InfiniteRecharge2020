@@ -29,11 +29,11 @@ public class SuckyWithSensor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_shootyThing.detectInfraredFromSensor()[0] >= 5.0 || m_shootyThing.detectInfraredFromSensor()[1] >= 5.0) {
-      m_shootyThing.sucky(-0.6);
-    } else if((m_shootyThing.detectInfraredFromSensor()[0] <= 4.0 && m_shootyThing.detectInfraredFromSensor()[1] <= 4.0) || m_shootyThing.getTopSensorReading()) {
+    if((m_shootyThing.detectInfraredFromSensor()[0] <= 4.0 && m_shootyThing.detectInfraredFromSensor()[1] <= 4.0) || m_shootyThing.getTopSensorReading()) {
       m_shootyThing.suckyStop();
-    }
+    } else if(m_shootyThing.detectInfraredFromSensor()[0] >= 5.0 || m_shootyThing.detectInfraredFromSensor()[1] >= 5.0) {
+      m_shootyThing.sucky(-0.6);
+    } 
   }
 
   // Called once the command ends or is interrupted.
