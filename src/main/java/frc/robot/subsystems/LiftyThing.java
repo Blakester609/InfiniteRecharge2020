@@ -30,13 +30,13 @@ public class LiftyThing extends SubsystemBase {
     public LiftyThing() {
       leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
       rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
-       leftMotor.follow(rightMotor); 
-       rightMotor.clearFaults();
-       leftMotor.clearFaults();
-       rightEncoder = rightMotor.getEncoder();
-       leftEncoder = leftMotor.getEncoder();
-       rightMotor.setOpenLoopRampRate(3);
-       rightMotor.setClosedLoopRampRate(3);
+      leftMotor.follow(rightMotor); 
+      rightMotor.clearFaults();
+      leftMotor.clearFaults();
+      rightEncoder = rightMotor.getEncoder();
+      leftEncoder = leftMotor.getEncoder();
+      rightMotor.setOpenLoopRampRate(3);
+      rightMotor.setClosedLoopRampRate(3);
       rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float)44.047149658);
       rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
       //this is so I wouldn't have to set both to the same value
