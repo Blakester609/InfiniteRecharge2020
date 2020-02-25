@@ -58,6 +58,29 @@ public class DriveTrain extends SubsystemBase {
       }
   }
 
+  public double getHeadingError() {
+    var limelightData = this.getData(); //Java 10 'var' automatically creates new LLData object.
+ 
+    double minDrive = Constants.Limelight.minTurnPower; //speed the motor will move the robot regardless of how miniscule the error is
+    double kP = Constants.Limelight.kpAim; //constant for turn power
+    double xOffset = limelightData.xOffset;
+    double heading = 0.0; //should be opposite of offset (in signs)
+
+    if (xOffset > 1.0) {
+        heading = ((kP * xOffset) + minDrive);
+        System.out.println("GOING LEFT");
+    } else { //xOffset less than or equal to 1.0
+        heading = ((kP * xOffset) - minDrive);
+        System.out.println("GOING RIGHT");
+    }
+
+    return heading;
+}
+
+public void aimTowardsTarget(double speed) {
+  diffDrive.arcadeDrive(speed, getHeadingError());
+}
+
   public LLData getData() {
     double x = this.area.getDouble(0.0);
     double y = this.yOffset.getDouble(0.0);

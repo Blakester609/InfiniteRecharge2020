@@ -45,5 +45,6 @@ public final class Constants {
         public static final double cameraHeight = 93.98;
         public static final double kpAim = 0.1;
         public static final double kpDistance = 0.1;
+        public static final double minTurnPower = 0.05;
     }
 }
