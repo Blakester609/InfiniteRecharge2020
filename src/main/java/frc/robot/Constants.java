@@ -39,10 +39,11 @@ public final class Constants {
         public static final int liftStopPiston = 4;
 
     }
+    
     public static final class Shooty {
         public static final int shootyMotor = 4;
         public static final int suckyMotor = 5;
-        public static final int spinnyMotor = 0;
+        public static final int spinnyMotor = 7;
         public static final int topShooterSensorPort = 0;
     }
 }

@@ -12,11 +12,12 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
+import com.revrobotics.ColorSensorV3;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PWMSpeedController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,6 +31,7 @@ public class ShootyThing extends SubsystemBase {
   private NetworkTableEntry yOffset;
   private NetworkTableEntry area;
   private DigitalInput topSensor;
+  private ColorSensorV3 colorSensor;
 
   public ShootyThing() {
     shootyMotor = new WPI_TalonFX(Constants.Shooty.shootyMotor);
@@ -44,7 +46,10 @@ public class ShootyThing extends SubsystemBase {
     shootyMotor.setSensorPhase(false);
     shootyMotor.setInverted(TalonFXInvertType.Clockwise);
     shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
+    
   }
+
+
   public void shooty(){
     shootyMotor.set(1.0);
     //put Limelight stuff in later

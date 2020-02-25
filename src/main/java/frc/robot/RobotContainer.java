@@ -48,8 +48,8 @@ public class RobotContainer {
   private final TopSensor m_topSensor = new TopSensor(m_shootyThing);
   private final LiftyThing m_liftyThing = new LiftyThing();
 
-  // private final LiftyCommand m_upLiftyCommand = new LiftyCommand(m_liftyThing, "up");
-  // private final LiftyCommand m_downLiftyCommand = new LiftyCommand(m_liftyThing, "down");
+  private final LiftyCommand m_upLiftyCommand = new LiftyCommand(m_liftyThing, "up");
+  private final LiftyCommand m_downLiftyCommand = new LiftyCommand(m_liftyThing, "down");
 
    
   /**
@@ -85,21 +85,21 @@ public class RobotContainer {
     suckyButton = new JoystickButton(m_joystick, 2);
     spinnyClockButton = new JoystickButton(m_joystick, 6);
     spinnyCounterclockButton = new JoystickButton(m_joystick, 5);
-    liftyUpButton = new JoystickButton(m_joystick, 9);
-    liftyDownButton = new JoystickButton(m_joystick, 11);
+    liftyUpButton = new JoystickButton(m_joystick, 8);
+    liftyDownButton = new JoystickButton(m_joystick, 7);
     clawOneOnButton = new JoystickButton(m_joystick, 3);
     clawTwoOnButton = new JoystickButton(m_joystick, 4);
-    liftPistonOnButton = new JoystickButton(m_joystick, 7);
-    frontGateOnButton = new JoystickButton(m_joystick, 8);
-    backGateOnButton = new JoystickButton(m_joystick, 10);
+    liftPistonOnButton = new JoystickButton(m_joystick, 9);
+    frontGateOnButton = new JoystickButton(m_joystick, 11);
+    backGateOnButton = new JoystickButton(m_joystick, 12);
 
 
     shootyButton.toggleWhenPressed(m_shootyCommand);
     suckyButton.toggleWhenPressed(m_suckyCommand);
     spinnyClockButton.whileHeld(m_rightspinnyCommand);
     spinnyCounterclockButton.whileHeld(m_leftspinnyCommand);
-    // liftyUpButton.whileHeld(m_upLiftyCommand);
-    // liftyDownButton.whileHeld(m_downLiftyCommand);
+    liftyUpButton.whileHeld(m_upLiftyCommand);
+    liftyDownButton.whileHeld(m_downLiftyCommand);
     clawOneOnButton.whenPressed(new InstantCommand(m_liftyThing::clawOneSolenoidOn, m_liftyThing));
     clawTwoOnButton.whenPressed(new InstantCommand(m_liftyThing::clawTwoSolenoidOn, m_liftyThing));
     liftPistonOnButton.whenPressed(new InstantCommand(m_liftyThing::setLiftStopPiston, m_liftyThing));

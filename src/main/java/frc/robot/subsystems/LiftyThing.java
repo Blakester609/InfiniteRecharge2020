@@ -7,7 +7,9 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -16,6 +18,8 @@ import frc.robot.Constants;
 public class LiftyThing extends SubsystemBase {
   private CANSparkMax leftMotor;
   private CANSparkMax rightMotor;
+  private CANEncoder rightEncoder;
+  private CANEncoder leftEncoder;
   private Solenoid clawOne;
   private Solenoid clawTwo;
   private Solenoid liftStopPiston;
@@ -27,6 +31,14 @@ public class LiftyThing extends SubsystemBase {
       leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
       rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
        leftMotor.follow(rightMotor); 
+       rightMotor.clearFaults();
+       leftMotor.clearFaults();
+       rightEncoder = rightMotor.getEncoder();
+       leftEncoder = leftMotor.getEncoder();
+       rightMotor.setOpenLoopRampRate(3);
+       rightMotor.setClosedLoopRampRate(3);
+      rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float)44.047149658);
+      rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
       //this is so I wouldn't have to set both to the same value
       clawOne = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawOne);
       clawTwo = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawTwo);
@@ -37,10 +49,12 @@ public class LiftyThing extends SubsystemBase {
       liftStopPiston.set(false);
   }
   public void armUp(){
+    System.out.println(rightEncoder.getPosition());
+    //44.047149658
     rightMotor.set(0.5);
-    
   }
   public void armDown(){
+    System.out.println(rightEncoder.getPosition());
     rightMotor.set(-0.5);
   }
 
@@ -58,6 +72,9 @@ public class LiftyThing extends SubsystemBase {
   public void setLiftStopPiston() {
     liftStopPistonOn = !liftStopPistonOn;
     liftStopPiston.set(liftStopPistonOn);
+  }
+  public void stopLift(){
+    rightMotor.stopMotor();
   }
   @Override
   public void periodic() {
