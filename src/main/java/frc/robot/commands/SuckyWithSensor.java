@@ -34,6 +34,7 @@ public class SuckyWithSensor extends CommandBase {
     } else if(m_shootyThing.detectInfraredFromSensor()[0] >= 5.0 || m_shootyThing.detectInfraredFromSensor()[1] >= 5.0) {
       m_shootyThing.sucky(-0.6);
     } 
+    
   }
 
   // Called once the command ends or is interrupted.
