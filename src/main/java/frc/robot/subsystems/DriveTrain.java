@@ -124,8 +124,8 @@ public class DriveTrain extends SubsystemBase {
   }
   
   
-   public void setArcadeDrive(double joyForward, double joyTurn){
-       diffDrive.arcadeDrive(-joyForward, joyTurn);
+   public void setArcadeDrive(double joyForward, double joyTurn, boolean isQuickTurnOn){
+       diffDrive.curvatureDrive(-joyForward, joyTurn, isQuickTurnOn);
   }
   public void autonomousConfig(){
     double now = Timer.getFPGATimestamp();
