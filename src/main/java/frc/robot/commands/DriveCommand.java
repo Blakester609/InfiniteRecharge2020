@@ -36,7 +36,7 @@ public class DriveCommand extends CommandBase {
     sliderValue = (sliderValue /2) + 0.5;
     double joyForward = m_joystick.getY();
     double joyTurn = m_joystick.getZ();
-    m_drivetrain.setArcadeDrive(sliderValue * joyForward, (0.7 * Math.abs(sliderValue)) * joyTurn);
+    m_drivetrain.setArcadeDrive(sliderValue * joyForward, (0.8 * sliderValue) * joyTurn);
   }
 
   // Called once the command ends or is interrupted.

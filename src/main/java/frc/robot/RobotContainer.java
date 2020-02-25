@@ -43,7 +43,7 @@ public class RobotContainer {
   
   private final ShootyThing m_shootyThing = new ShootyThing();
   private final ShootyCommand m_shootyCommand = new ShootyCommand(m_shootyThing);
-  private final SuckyCommand m_suckyCommand = new SuckyCommand(m_shootyThing);
+  // private final SuckyCommand m_suckyCommand = new SuckyCommand(m_shootyThing);
   private final SuckyWithSensor m_suckyWithSensorCommand = new SuckyWithSensor(m_shootyThing);
   private final SpinnyCommand m_leftspinnyCommand = new SpinnyCommand(m_shootyThing, "left");
   private final SpinnyCommand m_rightspinnyCommand = new SpinnyCommand(m_shootyThing, "right");
@@ -72,7 +72,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     final JoystickButton shootyButton;
-    final JoystickButton suckyButton;
+    // final JoystickButton suckyButton;
     final JoystickButton spinnyClockButton;
     final JoystickButton spinnyCounterclockButton;
     final JoystickButton liftyUpButton;
@@ -84,7 +84,7 @@ public class RobotContainer {
     final JoystickButton backGateOnButton;
 
     shootyButton = new JoystickButton(m_joystick, 1);
-    suckyButton = new JoystickButton(m_joystick, 2);
+   //  suckyButton = new JoystickButton(m_joystick, 2);
     spinnyClockButton = new JoystickButton(m_joystick, 6);
     spinnyCounterclockButton = new JoystickButton(m_joystick, 5);
     liftyUpButton = new JoystickButton(m_joystick, 8);
@@ -97,7 +97,7 @@ public class RobotContainer {
 
 
     shootyButton.toggleWhenPressed(m_shootyCommand);
-    suckyButton.toggleWhenPressed(m_suckyCommand);
+   // suckyButton.toggleWhenPressed(m_suckyCommand);
     spinnyClockButton.whileHeld(m_rightspinnyCommand);
     spinnyCounterclockButton.whileHeld(m_leftspinnyCommand);
     liftyUpButton.whileHeld(m_upLiftyCommand);

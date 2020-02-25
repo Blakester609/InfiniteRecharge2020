@@ -68,10 +68,10 @@ public class ShootyThing extends SubsystemBase {
   }
   public void spinny(String leftRight){
     if (leftRight == "right"){
-      spinnyMotor.set(ControlMode.PercentOutput,0.5);
+      spinnyMotor.set(ControlMode.PercentOutput,0.4);
     }
     else if (leftRight == "left"){
-      spinnyMotor.set(ControlMode.PercentOutput, -0.5);
+      spinnyMotor.set(ControlMode.PercentOutput, -0.4);
     }  
     //Set actual motor values later
   }

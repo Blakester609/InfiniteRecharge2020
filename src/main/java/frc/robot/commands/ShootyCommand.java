@@ -39,7 +39,7 @@ public class ShootyCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println(m_shootyThing.getShootyEncoderVel());
-    if (m_shootyThing.getShootyEncoderVel() >= 19140){
+    if (m_shootyThing.getShootyEncoderVel() >= 19000){
         m_shootyThing.sucky(-1.0); 
         isMotorOn = true;    
     } 
