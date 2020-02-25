@@ -52,6 +52,7 @@ public class ShootyThing extends SubsystemBase {
     shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
     colorSensor = new ColorSensorV3(Port.kOnboard);
     colorSensor2 = new ColorSensorV3(Port.kMXP);
+    // suckyMotor.configVoltageCompSaturation(10, 20);
   }
 
 
@@ -116,7 +117,7 @@ public class ShootyThing extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    getColorFromSensor();
+   // getColorFromSensor();
     // This method will be called once per scheduler run
     //printValue();
   }

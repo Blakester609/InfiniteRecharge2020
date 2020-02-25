@@ -7,62 +7,38 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ShootyThing;
 
-public class ShootyCommand extends CommandBase {
+public class ReverseSucky extends CommandBase {
   /**
-   * Creates a new ShootyCommand.
+   * Creates a new ReverseSucky.
    */
-  public final ShootyThing m_shootyThing;
-  public ShootyCommand(ShootyThing subsystem) {
+  private final ShootyThing m_shootyThing;
+  public ReverseSucky(ShootyThing subsystem) {
     m_shootyThing = subsystem;
     addRequirements(m_shootyThing);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
-  boolean isMotorOn = false;
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isMotorOn = !isMotorOn;
-    if(isMotorOn) {
-      m_shootyThing.shooty();
-      m_shootyThing.sucky(0.4);  
-    } else {
-      m_shootyThing.sucky(0.0);
-      m_shootyThing.shootyStop();
-    }
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {  
-    if((m_shootyThing.detectInfraredFromSensor()[0] >= 7.0 && m_shootyThing.detectInfraredFromSensor()[0] <= 50.0)|| (m_shootyThing.detectInfraredFromSensor()[1] >= 4.0 && m_shootyThing.detectInfraredFromSensor()[1] <= 50.0)) {
-      System.out.println(m_shootyThing.getShootyEncoderVel());
-      if (m_shootyThing.getShootyEncoderVel() >= 19000){
-        m_shootyThing.sucky(-1.0); 
-        isMotorOn = true;    
-      } 
-    }
-    
-    
-    
+  public void execute() {
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_shootyThing.shootyStop();
-    m_shootyThing.suckyStop();
-    isMotorOn =false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !isMotorOn;
+    return false;
   }
 }
