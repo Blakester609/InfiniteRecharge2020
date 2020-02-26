@@ -12,14 +12,17 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class LiftyThing extends SubsystemBase {
   private CANSparkMax leftMotor;
   private CANSparkMax rightMotor;
+
   private CANEncoder rightEncoder;
   private CANEncoder leftEncoder;
   private Solenoid clawOne;
@@ -29,6 +32,9 @@ public class LiftyThing extends SubsystemBase {
   private boolean clawOneOn = false;
   private boolean clawTwoOn = false;
   private boolean liftStopPistonOn = false;
+
+
+
     public LiftyThing() {
       leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
       rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
@@ -86,6 +92,7 @@ public class LiftyThing extends SubsystemBase {
   public void leftStopLift(){
     leftMotor.stopMotor();
   }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

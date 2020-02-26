@@ -43,10 +43,7 @@ public class ShootyThing extends SubsystemBase {
     shootyMotor = new WPI_TalonFX(Constants.Shooty.shootyMotor);
     suckyMotor = new VictorSPX(Constants.Shooty.suckyMotor);
     spinnyMotor = new VictorSPX(Constants.Shooty.spinnyMotor);
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    xOffset = table.getEntry("tx");
-    yOffset = table.getEntry("ty");
-    area = table.getEntry("area");
+    
     topSensor = new DigitalInput(Constants.Shooty.topShooterSensorPort);
     shootyMotor.configFactoryDefault();
     shootyMotor.setSensorPhase(true);
@@ -147,6 +144,7 @@ public class ShootyThing extends SubsystemBase {
   public double getShootyEncoderVel(){
     return shootyMotor.getSelectedSensorVelocity(0);
   }
+  
   @Override
   public void periodic() {
    // getColorFromSensor();

@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.Constants.Drive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.Supplier;
@@ -18,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+
 import edu.wpi.first.wpilibj.Solenoid;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -27,6 +29,9 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+
+import edu.wpi.first.networktables.NetworkTable;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -35,6 +40,7 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX motor2;
   private WPI_TalonFX motor3;
   private WPI_TalonFX motor4;
+
 
   private Solenoid frontBallGate;
   private Solenoid backBallGate;
@@ -59,6 +65,14 @@ public class DriveTrain extends SubsystemBase {
   double priorAutospeed = 0;
   Number[] numberArray = new Number[10];
   
+  private NetworkTable table;
+  private NetworkTableEntry xOffset;
+  private NetworkTableEntry yOffset;
+  private NetworkTableEntry area; 
+  private NetworkTableEntry validTarget;
+  private NetworkTableEntry skew;
+  private NetworkTableEntry tl;
+
   public DriveTrain() {
     motor1 = new WPI_TalonFX(Constants.Drive.motor1);
     motor1.setInverted(false);
@@ -85,6 +99,7 @@ public class DriveTrain extends SubsystemBase {
     motor4.configNeutralDeadband(0.05);
     motor3.follow(motor1);
     motor4.follow(motor2);
+
     motor4.clearStickyFaults();
     motor1.configOpenloopRamp(1, 20);
     motor2.configOpenloopRamp(1, 20);
@@ -92,6 +107,14 @@ public class DriveTrain extends SubsystemBase {
     backBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.backBallGate);
     frontBallGate.set(false);
     backBallGate.set(false);
+    table = NetworkTableInstance.getDefault().getTable("limelight");
+    xOffset = table.getEntry("tx");
+    yOffset = table.getEntry("ty");
+    area = table.getEntry("area");
+    validTarget = table.getEntry("tv"); //Whether the limelight has a valid target (either 0 or 1)
+    skew = table.getEntry("ts"); //Skew or rotation of target (-90.0 to 0.0 deg.)
+    tl = table.getEntry("tl");
+
     usbCamera = CameraServer.getInstance().startAutomaticCapture(0);
     gyroAngleRadians = () -> -1 * Math.toRadians(navx.getAngle());
     double encoderConstant =
@@ -186,6 +209,60 @@ public class DriveTrain extends SubsystemBase {
     telemetryEntry.setNumberArray(numberArray);
   }  
   
+    
+
+   public static class LLData {
+    public final double xOffset, yOffset, area, targetExists, skew;
+
+    public LLData(double xOffset, double yOffset, double area, double targetExists, double skew) {
+        this.xOffset = xOffset;    
+        this.yOffset = yOffset;
+        this.area = area;
+        this.targetExists = targetExists;     
+        this.skew = skew;
+      }
+  }
+
+  public double getHeadingError() {
+    var limelightData = this.getData(); //Java 10 'var' automatically creates new LLData object.
+ 
+    double minDrive = Constants.Limelight.minTurnPower; //speed the motor will move the robot regardless of how miniscule the error is
+    double kP = Constants.Limelight.kpAim; //constant for turn power
+    double xOffset = limelightData.xOffset;
+    double heading = 0.0; //should be opposite of offset (in signs)
+
+    if (xOffset > 1.0) {
+        heading = ((kP * xOffset) + minDrive);
+        System.out.println("GOING LEFT");
+    } else { //xOffset less than or equal to 1.0
+        heading = ((kP * xOffset) - minDrive);
+        System.out.println("GOING RIGHT");
+    }
+
+    return heading;
+}
+
+public void aimTowardsTarget(double speed) {
+  setArcadeDrive(speed, getHeadingError());
+}
+
+  public LLData getData() {
+    double x = this.area.getDouble(0.0);
+    double y = this.yOffset.getDouble(0.0);
+    double area = this.area.getDouble(0.0);
+    double skew = this.skew.getDouble(0.0);
+    double v = this.validTarget.getDouble(0.0);
+    return new DriveTrain.LLData(x, y, area, v, skew);
+  }
+  public double estimatingDistance(){
+    double distance;
+    distance = (Constants.Limelight.targetHeight - Constants.Limelight.cameraHeight)/(Math.tan(Constants.Limelight.cameraAngle+this.getData().yOffset));
+    return distance;
+  }
+
+  public void aimingInRange(){
+    
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

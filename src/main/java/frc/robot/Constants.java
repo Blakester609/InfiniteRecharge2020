@@ -57,4 +57,13 @@ public final class Constants {
         public static final int spinnyMotor = 6;
         public static final int topShooterSensorPort = 0;
     }
+    public static final class Limelight{
+        public static final double cameraAngle = 10;
+        //Measurements in centimeters
+        public static final double targetHeight = 211.455;
+        public static final double cameraHeight = 93.98;
+        public static final double kpAim = 0.1;
+        public static final double kpDistance = 0.1;
+        public static final double minTurnPower = 0.05;
+    }
 }
