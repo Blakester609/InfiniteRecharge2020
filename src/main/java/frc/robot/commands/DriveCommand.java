@@ -39,7 +39,7 @@ public class DriveCommand extends CommandBase {
     sliderValue = (sliderValue /2) + 0.5;
     double joyForward = m_joystick.getY();
     double joyTurn = m_joystick.getZ();
-    m_drivetrain.setArcadeDrive(joyForward, 0.6 * joyTurn);
+    m_drivetrain.setArcadeDrive(joyForward, 0.7 * joyTurn);
     // if(Math.abs(joyForward) < 0.1) {
     //   m_drivetrain.setArcadeDrive(sliderValue * joyForward, joyTurn, true);
     // } else {
