@@ -16,7 +16,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-
 import edu.wpi.first.wpilibj.Solenoid;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -24,6 +23,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -45,6 +46,7 @@ public class DriveTrain extends SubsystemBase {
   Supplier<Double> rightEncoderPosition;
   Supplier<Double> rightEncoderRate;
   Supplier<Double> gyroAngleRadians;
+  private UsbCamera usbCamera;
 
   NetworkTableEntry autoSpeedEntry =
       NetworkTableInstance.getDefault().getEntry("/robot/autospeed");
@@ -59,7 +61,7 @@ public class DriveTrain extends SubsystemBase {
   public DriveTrain() {
     motor1 = new WPI_TalonFX(Constants.Drive.motor1);
     motor1.setInverted(false);
-    motor1.setSensorPhase(false);
+    motor1.setSensorPhase(true);
     motor1.setNeutralMode(NeutralMode.Brake);
     motor2 = new WPI_TalonFX(Constants.Drive.motor2);
     motor2.setInverted(false);
@@ -67,7 +69,7 @@ public class DriveTrain extends SubsystemBase {
     motor2.setNeutralMode(NeutralMode.Brake);
     motor3 = new WPI_TalonFX(Constants.Drive.motor3);
     motor3.setInverted(false);
-    motor3.setSensorPhase(false);
+    motor3.setSensorPhase(true);
     motor3.setNeutralMode(NeutralMode.Brake);
     motor4 = new WPI_TalonFX(Constants.Drive.motor4);
     motor4.setInverted(false);
@@ -82,7 +84,7 @@ public class DriveTrain extends SubsystemBase {
     backBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.backBallGate);
     frontBallGate.set(false);
     backBallGate.set(false);
-
+    usbCamera = CameraServer.getInstance().startAutomaticCapture(0);
     diffDrive.setDeadband(0);
     gyroAngleRadians = () -> -1 * Math.toRadians(navx.getAngle());
     double encoderConstant =

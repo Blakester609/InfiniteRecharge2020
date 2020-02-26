@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,7 +25,7 @@ public class LiftyThing extends SubsystemBase {
   private Solenoid clawOne;
   private Solenoid clawTwo;
   private Solenoid liftStopPiston;
-
+  
   private boolean clawOneOn = false;
   private boolean clawTwoOn = false;
   private boolean liftStopPistonOn = false;
@@ -43,21 +45,26 @@ public class LiftyThing extends SubsystemBase {
       clawOne = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawOne);
       clawTwo = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawTwo);
       liftStopPiston = new Solenoid(Constants.pcmChannel,Constants.Lifty.liftStopPiston);
-
+      
       clawOne.set(false);
       clawTwo.set(false);
-      liftStopPiston.set(false);
+      
   }
-  public void armUp(){
+  public void rightArmUp(){
     System.out.println(rightEncoder.getPosition());
     //44.047149658
-    rightMotor.set(0.5);
+    rightMotor.set(0.6);
   }
-  public void armDown(){
+  public void rightArmDown(){
     System.out.println(rightEncoder.getPosition());
-    rightMotor.set(-0.5);
+    rightMotor.set(-0.6);
   }
-
+  public void leftArmUp(){
+    leftMotor.set(0.6);
+  }
+  public void leftArmDown(){
+    leftMotor.set(-0.6);
+  }
   public void clawOneSolenoidOn() {
     System.out.println("changed claw solenoid state");
     clawOneOn = !clawOneOn;
@@ -73,8 +80,11 @@ public class LiftyThing extends SubsystemBase {
     liftStopPistonOn = !liftStopPistonOn;
     liftStopPiston.set(liftStopPistonOn);
   }
-  public void stopLift(){
+  public void rightStopLift(){
     rightMotor.stopMotor();
+  }
+  public void leftStopLift(){
+    leftMotor.stopMotor();
   }
   @Override
   public void periodic() {

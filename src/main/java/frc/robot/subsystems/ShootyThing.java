@@ -36,6 +36,7 @@ public class ShootyThing extends SubsystemBase {
   private ColorSensorV3 colorSensor;
   private ColorSensorV3 colorSensor2;
   private Color detectedColor;
+  private Color detectedColor2;
 
   public ShootyThing() {
     shootyMotor = new WPI_TalonFX(Constants.Shooty.shootyMotor);
@@ -69,10 +70,10 @@ public class ShootyThing extends SubsystemBase {
   }
   public void spinny(String leftRight){
     if (leftRight == "right"){
-      spinnyMotor.set(ControlMode.PercentOutput,0.4);
+      spinnyMotor.set(ControlMode.PercentOutput,1.0);
     }
     else if (leftRight == "left"){
-      spinnyMotor.set(ControlMode.PercentOutput, -0.4);
+      spinnyMotor.set(ControlMode.PercentOutput, -1.0);
     }  
     //Set actual motor values later
   }
@@ -92,9 +93,26 @@ public class ShootyThing extends SubsystemBase {
 
   public void getColorFromSensor() {
     detectedColor = colorSensor.getColor();
+    detectedColor2 = colorSensor2.getColor();
     
     System.out.println("Color From sensor: "+ detectedColor);
+    System.out.println("Color From sensor2: "+ detectedColor2);
+    System.out.println("Red 2 -> " + detectedColor2.red);
+    System.out.println("Green 2 -> " + detectedColor2.green);
+    System.out.println("Blue 2 -> "+ detectedColor2.blue);
+
+    if( ((detectedColor2.green < 0.5 && detectedColor2.red < 0.3) && (detectedColor.green < 0.5 && detectedColor.red < 0.3)) || getTopSensorReading()) {
+        suckyStop();
+    } else
+      if( (detectedColor2.green >= 0.48 && detectedColor2.red >= 0.26) || (detectedColor.green >= 0.49 && detectedColor.red >= 0. && detectedColor.blue >= 0.1)
+      ) {
+        sucky(-0.6);
+    }
     
+  }
+
+  public void stopSpinnyMotor() {
+    spinnyMotor.set(ControlMode.PercentOutput, 0.0);
   }
 
   public double[] detectInfraredFromSensor() {

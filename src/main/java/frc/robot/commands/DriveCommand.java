@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -15,6 +17,7 @@ public class DriveCommand extends CommandBase {
   /**
    * Creates a new DriveCommand.
    */
+  
   private final DriveTrain m_drivetrain; // Instantiating or creating a new object reference
   private final Joystick m_joystick;
   public DriveCommand(DriveTrain subsystem, Joystick joystick) { 
@@ -36,12 +39,12 @@ public class DriveCommand extends CommandBase {
     sliderValue = (sliderValue /2) + 0.5;
     double joyForward = m_joystick.getY();
     double joyTurn = m_joystick.getZ();
-    if(Math.abs(joyForward) < 0.05) {
+    if(Math.abs(joyForward) < 0.1) {
       m_drivetrain.setArcadeDrive(sliderValue * joyForward, joyTurn, true);
     } else {
       m_drivetrain.setArcadeDrive(sliderValue * joyForward, joyTurn, false);
     }
-
+    
     
   }
 

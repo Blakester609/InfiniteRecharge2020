@@ -51,10 +51,10 @@ public class RobotContainer {
   private final TopSensor m_topSensor = new TopSensor(m_shootyThing);
   private final LiftyThing m_liftyThing = new LiftyThing();
 
-  private final LiftyCommand m_upLiftyCommand = new LiftyCommand(m_liftyThing, "up");
-  private final LiftyCommand m_downLiftyCommand = new LiftyCommand(m_liftyThing, "down");
-
-   
+  private final LiftyCommand m_upRightLiftyCommand = new LiftyCommand(m_liftyThing, "up", "right");
+  private final LiftyCommand m_downRightLiftyCommand = new LiftyCommand(m_liftyThing, "down", "right");
+  private final LiftyCommand m_downLeftLiftyCommand = new LiftyCommand(m_liftyThing, "down", "left");
+  private final LiftyCommand m_upLeftLiftyCommand = new LiftyCommand(m_liftyThing, "up", "left"); 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -76,42 +76,42 @@ public class RobotContainer {
     // final JoystickButton suckyButton;
     final JoystickButton spinnyClockButton;
     final JoystickButton spinnyCounterclockButton;
-    final JoystickButton liftyUpButton;
-    final JoystickButton liftyDownButton;  
     final JoystickButton clawOneOnButton; 
     final JoystickButton clawTwoOnButton; 
     final JoystickButton liftPistonOnButton;
     final JoystickButton frontGateOnButton;
     final JoystickButton backGateOnButton;
-
+    final JoystickButton upLeftLiftyButton;
+    final JoystickButton downLeftLiftyButton;
+    final JoystickButton upRightLiftyButton;
+    final JoystickButton downRightLiftyButton;
     shootyButton = new JoystickButton(m_joystick, 1);
    //  suckyButton = new JoystickButton(m_joystick, 2);
     spinnyClockButton = new JoystickButton(m_joystick, 6);
     spinnyCounterclockButton = new JoystickButton(m_joystick, 5);
-    liftyUpButton = new JoystickButton(m_joystick, 8);
-    liftyDownButton = new JoystickButton(m_joystick, 7);
-    clawOneOnButton = new JoystickButton(m_joystick, 3);
-    clawTwoOnButton = new JoystickButton(m_joystick, 4);
-    liftPistonOnButton = new JoystickButton(m_joystick, 9);
+    clawOneOnButton = new JoystickButton(m_climbingJoystick, 5);
+    clawTwoOnButton = new JoystickButton(m_climbingJoystick, 4);
+    liftPistonOnButton = new JoystickButton(m_climbingJoystick, 1);
     frontGateOnButton = new JoystickButton(m_joystick, 11);
     backGateOnButton = new JoystickButton(m_joystick, 12);
-
-
+    upLeftLiftyButton = new JoystickButton(m_climbingJoystick, 3);
+    upRightLiftyButton = new JoystickButton(m_climbingJoystick, 2);
+    downLeftLiftyButton = new JoystickButton(m_climbingJoystick, 8);
+    downRightLiftyButton = new JoystickButton(m_climbingJoystick, 9);
     shootyButton.toggleWhenPressed(m_shootyCommand);
    // suckyButton.toggleWhenPressed(m_suckyCommand);
     spinnyClockButton.whileHeld(m_rightspinnyCommand);
     spinnyCounterclockButton.whileHeld(m_leftspinnyCommand);
-    liftyUpButton.whileHeld(m_upLiftyCommand);
-    liftyDownButton.whileHeld(m_downLiftyCommand);
     clawOneOnButton.whenPressed(new InstantCommand(m_liftyThing::clawOneSolenoidOn, m_liftyThing));
     clawTwoOnButton.whenPressed(new InstantCommand(m_liftyThing::clawTwoSolenoidOn, m_liftyThing));
     liftPistonOnButton.whenPressed(new InstantCommand(m_liftyThing::setLiftStopPiston, m_liftyThing));
 
     frontGateOnButton.whenPressed(new InstantCommand(m_driveTrain::frontGateSolenoidOn, m_driveTrain));
     backGateOnButton.whenPressed(new InstantCommand(m_driveTrain::backGateSolenoidOn, m_driveTrain));
-    
-
-
+    upLeftLiftyButton.whileHeld(m_upLeftLiftyCommand);
+    upRightLiftyButton.whileHeld(m_upRightLiftyCommand);
+    downRightLiftyButton.whileHeld(m_downRightLiftyCommand);
+    downLeftLiftyButton.whileHeld(m_downLeftLiftyCommand);
   }
 
 

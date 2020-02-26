@@ -40,7 +40,7 @@ public class ShootyCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {  
-    if((m_shootyThing.detectInfraredFromSensor()[0] >= 7.0 && m_shootyThing.detectInfraredFromSensor()[0] <= 50.0)|| (m_shootyThing.detectInfraredFromSensor()[1] >= 4.0 && m_shootyThing.detectInfraredFromSensor()[1] <= 50.0)) {
+    if((m_shootyThing.detectInfraredFromSensor()[0] >= 10.0 && m_shootyThing.detectInfraredFromSensor()[0] <= 50.0)|| (m_shootyThing.detectInfraredFromSensor()[1] >= 10.0 && m_shootyThing.detectInfraredFromSensor()[1] <= 50.0)) {
       System.out.println(m_shootyThing.getShootyEncoderVel());
       if (m_shootyThing.getShootyEncoderVel() >= 19000){
         m_shootyThing.sucky(-1.0); 

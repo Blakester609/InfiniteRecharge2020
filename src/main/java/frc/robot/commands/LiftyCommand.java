@@ -16,9 +16,11 @@ public class LiftyCommand extends CommandBase {
    */
   private final LiftyThing m_liftyThing;
   private final String upDown;
-  public LiftyCommand(LiftyThing subsystem, String updown) {
+  private final String leftRight;
+  public LiftyCommand(LiftyThing subsystem, String updown, String leftright) {
     m_liftyThing = subsystem;
     upDown = updown;
+    leftRight = leftright;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,11 +33,17 @@ public class LiftyCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("Lift Command running");
-    if (upDown == "up"){
-      m_liftyThing.armUp();
+    if (upDown == "up" && leftRight == "right"){
+      m_liftyThing.rightArmUp();
     }
-    else if (upDown == "down"){
-      m_liftyThing.armDown();
+    else if (upDown == "down" && leftRight == "right"){
+      m_liftyThing.rightArmDown();
+    }
+    else if (upDown == "up" && leftRight == "left"){
+      m_liftyThing.leftArmUp();
+    }
+    else if (upDown == "down" && leftRight == "left"){
+      m_liftyThing.leftArmDown();
     }
   }
 
@@ -43,7 +51,12 @@ public class LiftyCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("COMMAND STOPPED");
-    m_liftyThing.stopLift();
+    if (leftRight == "left"){
+      m_liftyThing.leftStopLift();
+    }
+    else if (leftRight == "right"){
+      m_liftyThing.rightStopLift();
+    }
   }
 
   // Returns true when the command should end.
