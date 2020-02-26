@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.Supplier;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -33,7 +35,6 @@ public class DriveTrain extends SubsystemBase {
   private WPI_TalonFX motor2;
   private WPI_TalonFX motor3;
   private WPI_TalonFX motor4;
-  private DifferentialDrive diffDrive;
 
   private Solenoid frontBallGate;
   private Solenoid backBallGate;
@@ -61,23 +62,30 @@ public class DriveTrain extends SubsystemBase {
   public DriveTrain() {
     motor1 = new WPI_TalonFX(Constants.Drive.motor1);
     motor1.setInverted(false);
-    motor1.setSensorPhase(true);
+    motor1.setSensorPhase(false);
     motor1.setNeutralMode(NeutralMode.Brake);
+    motor1.configNeutralDeadband(0.05);
+    motor1.clearStickyFaults();
     motor2 = new WPI_TalonFX(Constants.Drive.motor2);
     motor2.setInverted(false);
     motor2.setSensorPhase(false);
     motor2.setNeutralMode(NeutralMode.Brake);
+    motor2.configNeutralDeadband(0.05);
+    motor2.clearStickyFaults();
     motor3 = new WPI_TalonFX(Constants.Drive.motor3);
     motor3.setInverted(false);
-    motor3.setSensorPhase(true);
+    motor3.setSensorPhase(false);
     motor3.setNeutralMode(NeutralMode.Brake);
+    motor3.configNeutralDeadband(0.05);
+    motor3.clearStickyFaults();
     motor4 = new WPI_TalonFX(Constants.Drive.motor4);
     motor4.setInverted(false);
     motor4.setSensorPhase(false);
     motor4.setNeutralMode(NeutralMode.Brake);
+    motor4.configNeutralDeadband(0.05);
     motor3.follow(motor1);
     motor4.follow(motor2);
-    diffDrive = new DifferentialDrive(motor1, motor2);
+    motor4.clearStickyFaults();
     motor1.configOpenloopRamp(2, 20);
     motor2.configOpenloopRamp(2, 20);
     frontBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.frontBallGate);
@@ -85,7 +93,6 @@ public class DriveTrain extends SubsystemBase {
     frontBallGate.set(false);
     backBallGate.set(false);
     usbCamera = CameraServer.getInstance().startAutomaticCapture(0);
-    diffDrive.setDeadband(0);
     gyroAngleRadians = () -> -1 * Math.toRadians(navx.getAngle());
     double encoderConstant =
         (1 / Constants.Drive.ENCODER_EDGES_PER_REV) * Constants.Drive.WHEEL_DIAMETER * Math.PI;
@@ -126,9 +133,33 @@ public class DriveTrain extends SubsystemBase {
   }
   
   
-   public void setArcadeDrive(double joyForward, double joyTurn, boolean isQuickTurnOn){
-       diffDrive.curvatureDrive(-joyForward, joyTurn, isQuickTurnOn);
-  }
+  //  public void setArcadeDrive(double joyForward, double joyTurn, boolean isQuickTurnOn){
+  //      diffDrive.curvatureDrive(-joyForward, joyTurn, isQuickTurnOn);
+  // }
+
+  public void setArcadeDrive(double joyForward, double joyTurn) {
+    double rightForward;
+    double leftForward;
+    // if(Math.abs(joyTurn) > 0.4) {
+    //     joyTurn = 0.4 * joyTurn;
+    // }
+
+    rightForward = +joyForward;
+    leftForward = -joyForward;
+
+    // if(Math.abs(joyForward) < 0.1 && joyTurn < 0.1) {
+    //     rightForward = -0.0;
+    //     leftForward = +joyForward;
+    // } else if(Math.abs(joyForward) < 0.1 && joyTurn > 0.1) {
+    //     leftForward = 0.0;
+    //     rightForward = -joyForward;
+    // } else {
+    //     rightForward = -joyForward;
+    //     leftForward = +joyForward;
+    // }
+    motor1.set(ControlMode.PercentOutput, leftForward, DemandType.ArbitraryFeedForward, joyTurn);
+    motor2.set(ControlMode.PercentOutput, rightForward, DemandType.ArbitraryFeedForward, joyTurn);
+}
   public void autonomousConfig(){
     double now = Timer.getFPGATimestamp();
     double leftPosition = leftEncoderPosition.get();
@@ -140,10 +171,8 @@ public class DriveTrain extends SubsystemBase {
     double rightMotorVolts = motor2.getMotorOutputVoltage();
     double autospeed = autoSpeedEntry.getDouble(0);
     priorAutospeed = autospeed;
-    diffDrive.tankDrive(
-      (rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, autospeed,
-      false
-    );
+    motor1.set(ControlMode.PercentOutput, (rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, DemandType.ArbitraryFeedForward,  autospeed);
+    motor2.set(ControlMode.PercentOutput, (rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, DemandType.ArbitraryFeedForward,  autospeed);
     numberArray[0] = now;
     numberArray[1] = battery;
     numberArray[2] = autospeed;

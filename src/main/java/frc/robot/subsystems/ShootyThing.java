@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -48,17 +49,20 @@ public class ShootyThing extends SubsystemBase {
     area = table.getEntry("area");
     topSensor = new DigitalInput(Constants.Shooty.topShooterSensorPort);
     shootyMotor.configFactoryDefault();
-    shootyMotor.setSensorPhase(false);
+    shootyMotor.setSensorPhase(true);
+    shootyMotor.setNeutralMode(NeutralMode.Brake);
     shootyMotor.setInverted(TalonFXInvertType.Clockwise);
     shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
     colorSensor = new ColorSensorV3(Port.kOnboard);
     colorSensor2 = new ColorSensorV3(Port.kMXP);
+    
+    
     // suckyMotor.configVoltageCompSaturation(10, 20);
   }
 
 
   public void shooty(){
-    shootyMotor.set(1.0);
+    shootyMotor.set(ControlMode.PercentOutput, 0.8);
     //put Limelight stuff in later
   }
   public boolean getTopSensorReading() {
@@ -101,14 +105,24 @@ public class ShootyThing extends SubsystemBase {
     System.out.println("Green 2 -> " + detectedColor2.green);
     System.out.println("Blue 2 -> "+ detectedColor2.blue);
 
-    if( ((detectedColor2.green < 0.5 && detectedColor2.red < 0.3) && (detectedColor.green < 0.5 && detectedColor.red < 0.3)) || getTopSensorReading()) {
+    if(getTopSensorReading()) {
+      suckyStop();
+    } else if(((detectedColor2.green < 0.5 && detectedColor2.red < 0.3) && (detectedColor.green < 0.5 && detectedColor.red < 0.3))) {
         suckyStop();
-    } else
-      if( (detectedColor2.green >= 0.48 && detectedColor2.red >= 0.26) || (detectedColor.green >= 0.49 && detectedColor.red >= 0. && detectedColor.blue >= 0.1)
+    } else if( (detectedColor2.green >= 0.48 && detectedColor2.red >= 0.26) || (detectedColor.green >= 0.49 && detectedColor.red >= 0. && detectedColor.blue >= 0.1)
       ) {
-        sucky(-0.6);
+        sucky(-0.4);
     }
     
+  }
+
+  public Color getColorOne() {
+    return detectedColor = colorSensor.getColor();
+    
+  }
+
+  public Color getColorTwo() {
+    return detectedColor2 = colorSensor2.getColor();
   }
 
   public void stopSpinnyMotor() {

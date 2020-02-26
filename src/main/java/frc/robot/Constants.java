@@ -22,7 +22,7 @@ public final class Constants {
         public static final int motor2 = 2;
         public static final int motor3 = 1;
         public static final int motor4 = 3;
-        public static final double WHEEL_DIAMETER = 13.927;
+        public static final double WHEEL_DIAMETER = 6.0;
         public static final double ENCODER_EDGES_PER_REV = 2048;
         public static final int PIDIDX = 0;
     }
@@ -42,6 +42,13 @@ public final class Constants {
         public static final int clawTwo = 3;
         public static final int liftStopPiston = 4;
 
+    }
+    public static final class PIDConstantsDrivetrain {
+        public static final double ksVolts = 0.228;
+        public static final double ksVoltSecondsPerMeter = 0.00554;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.0;
+
+        public static final double kPDriveVel = 0.00000841;
     }
     
     public static final class Shooty {
