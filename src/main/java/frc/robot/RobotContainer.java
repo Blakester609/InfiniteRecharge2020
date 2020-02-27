@@ -13,14 +13,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PerpetualCommand;
+import frc.robot.commands.AimWithLimelight;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.LiftyCommand;
+import frc.robot.commands.LeftLiftyCommand;
+
+import frc.robot.commands.RightLiftyCommand;
 import frc.robot.commands.ShootyCommand;
 import frc.robot.commands.SimpleAuton;
 import frc.robot.commands.SpinnyCommand;
 import frc.robot.commands.SuckyCommand;
 import frc.robot.commands.SuckyWithSensor;
 import frc.robot.commands.TopSensor;
+import frc.robot.controller.XboxButton;
+import frc.robot.controller.XboxButton.Button;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.LiftyThing;
 import frc.robot.subsystems.ShootyThing;
@@ -35,11 +40,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Joystick m_joystick = new Joystick(Constants.OI.joyPort);
+  private final XboxController driveController = new XboxController(Constants.OI.XPort);
   private final Joystick m_climbingJoystick = new Joystick(Constants.OI.climbingJoystick);
   
   private final DriveTrain m_driveTrain = new DriveTrain();
-  private final DriveCommand m_driveCommand = new DriveCommand(m_driveTrain ,m_joystick);
+ private final DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, driveController); 
   private final SimpleAuton m_autoCommand = new SimpleAuton(m_driveTrain);
   
   private final ShootyThing m_shootyThing = new ShootyThing();
@@ -51,16 +56,18 @@ public class RobotContainer {
   private final TopSensor m_topSensor = new TopSensor(m_shootyThing);
   private final LiftyThing m_liftyThing = new LiftyThing();
 
-  private final LiftyCommand m_upRightLiftyCommand = new LiftyCommand(m_liftyThing, "up", "right");
-  private final LiftyCommand m_downRightLiftyCommand = new LiftyCommand(m_liftyThing, "down", "right");
-  private final LiftyCommand m_downLeftLiftyCommand = new LiftyCommand(m_liftyThing, "down", "left");
-  private final LiftyCommand m_upLeftLiftyCommand = new LiftyCommand(m_liftyThing, "up", "left"); 
+  private final RightLiftyCommand m_upRightLiftyCommand = new RightLiftyCommand(m_liftyThing, "up");
+  private final RightLiftyCommand m_downRightLiftyCommand = new RightLiftyCommand(m_liftyThing, "down");
+  private final LeftLiftyCommand m_downLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "down");
+  private final LeftLiftyCommand m_upLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "up"); 
+  private final AimWithLimelight m_aiming = new AimWithLimelight(m_driveTrain);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     CommandScheduler.getInstance().setDefaultCommand(m_driveTrain, m_driveCommand);
     CommandScheduler.getInstance().setDefaultCommand(m_shootyThing, m_suckyWithSensorCommand);
+    // CommandScheduler.getInstance().setDefaultCommand(m_liftyThing, m_upRightLiftyCommand);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -72,35 +79,42 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    final JoystickButton shootyButton;
+    final XboxButton shootyButton;
     // final JoystickButton suckyButton;
-    final JoystickButton spinnyClockButton;
-    final JoystickButton spinnyCounterclockButton;
+    final XboxButton spinnyClockButton;
+    final XboxButton spinnyCounterclockButton;
     final JoystickButton clawOneOnButton; 
     final JoystickButton clawTwoOnButton; 
     final JoystickButton liftPistonOnButton;
-    final JoystickButton frontGateOnButton;
-    final JoystickButton backGateOnButton;
+    final XboxButton frontGateOnButton;
+    final XboxButton backGateOnButton;
     final JoystickButton upLeftLiftyButton;
     final JoystickButton downLeftLiftyButton;
     final JoystickButton upRightLiftyButton;
     final JoystickButton downRightLiftyButton;
-    shootyButton = new JoystickButton(m_joystick, 1);
+    final XboxButton aimingButton;
+    shootyButton = new XboxButton(driveController, Button.Y);
    //  suckyButton = new JoystickButton(m_joystick, 2);
-    spinnyClockButton = new JoystickButton(m_joystick, 6);
-    spinnyCounterclockButton = new JoystickButton(m_joystick, 5);
+    spinnyClockButton = new XboxButton(driveController, Button.X);
+    spinnyCounterclockButton = new XboxButton(driveController, Button.B);
     clawOneOnButton = new JoystickButton(m_climbingJoystick, 5);
     clawTwoOnButton = new JoystickButton(m_climbingJoystick, 4);
     liftPistonOnButton = new JoystickButton(m_climbingJoystick, 1);
-    frontGateOnButton = new JoystickButton(m_joystick, 11);
-    backGateOnButton = new JoystickButton(m_joystick, 12);
+    frontGateOnButton = new XboxButton(driveController, Button.BumperRight);
+    backGateOnButton = new XboxButton(driveController, Button.BumperLeft);
     upLeftLiftyButton = new JoystickButton(m_climbingJoystick, 3);
     upRightLiftyButton = new JoystickButton(m_climbingJoystick, 2);
     downLeftLiftyButton = new JoystickButton(m_climbingJoystick, 8);
     downRightLiftyButton = new JoystickButton(m_climbingJoystick, 9);
+    aimingButton = new XboxButton(driveController, Button.A);
     shootyButton.toggleWhenPressed(m_shootyCommand);
    // suckyButton.toggleWhenPressed(m_suckyCommand);
-    spinnyClockButton.whileHeld(m_rightspinnyCommand);
+    spinnyClockButton.whileHeld(m_rightspinnyCommand); 
+    // Kira's amazing code
+    // shpoofy 
+    // downLeftLiftyButton.bootlegging@gmail.command
+    // Happiness.bananas; #forbreakfast:/Fix
+
     spinnyCounterclockButton.whileHeld(m_leftspinnyCommand);
     clawOneOnButton.whenPressed(new InstantCommand(m_liftyThing::clawOneSolenoidOn, m_liftyThing));
     clawTwoOnButton.whenPressed(new InstantCommand(m_liftyThing::clawTwoSolenoidOn, m_liftyThing));
@@ -112,6 +126,7 @@ public class RobotContainer {
     upRightLiftyButton.whileHeld(m_upRightLiftyCommand);
     downRightLiftyButton.whileHeld(m_downRightLiftyCommand);
     downLeftLiftyButton.whileHeld(m_downLeftLiftyCommand);
+    aimingButton.toggleWhenPressed(m_aiming);
   }
 
 

@@ -38,9 +38,9 @@ public class XboxButton extends Button {
 	 * Create a joystick button for triggering commands.
 	 *
 	 * @param joystick The XboxController object that has the button
-	 * @param button The button to use (see {@link XboxButton.Button}
+	 * @param i The button to use (see {@link XboxButton.Button}
 	 */
-	public XboxButton(XboxController joystick, XboxButton.Button button) {
+	public XboxButton(XboxController joystick, Button button) {
 		m_joystick = joystick;
 		m_buttonNumber = button.value;
 	}

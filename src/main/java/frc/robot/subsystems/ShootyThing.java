@@ -96,11 +96,11 @@ public class ShootyThing extends SubsystemBase {
     detectedColor = colorSensor.getColor();
     detectedColor2 = colorSensor2.getColor();
     
-    System.out.println("Color From sensor: "+ detectedColor);
-    System.out.println("Color From sensor2: "+ detectedColor2);
-    System.out.println("Red 2 -> " + detectedColor2.red);
-    System.out.println("Green 2 -> " + detectedColor2.green);
-    System.out.println("Blue 2 -> "+ detectedColor2.blue);
+    // System.out.println("Color From sensor: "+ detectedColor);
+    // System.out.println("Color From sensor2: "+ detectedColor2);
+    // System.out.println("Red 2 -> " + detectedColor2.red);
+    // System.out.println("Green 2 -> " + detectedColor2.green);
+    // System.out.println("Blue 2 -> "+ detectedColor2.blue);
 
     if(getTopSensorReading()) {
       suckyStop();

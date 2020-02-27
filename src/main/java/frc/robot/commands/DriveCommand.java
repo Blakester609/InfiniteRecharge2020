@@ -10,8 +10,11 @@ package frc.robot.commands;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 public class DriveCommand extends CommandBase {
   /**
@@ -19,10 +22,10 @@ public class DriveCommand extends CommandBase {
    */
   
   private final DriveTrain m_drivetrain; // Instantiating or creating a new object reference
-  private final Joystick m_joystick;
-  public DriveCommand(DriveTrain subsystem, Joystick joystick) { 
+  private final XboxController m_xbox;
+  public DriveCommand(DriveTrain subsystem, XboxController xbox) { 
     m_drivetrain = subsystem;
-    m_joystick = joystick;
+    m_xbox = xbox;
     addRequirements(m_drivetrain);
     
   }
@@ -35,11 +38,17 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double sliderValue = -1.0 * m_joystick.getRawAxis(3);
-    sliderValue = (sliderValue /2) + 0.5;
-    double joyForward = m_joystick.getY();
-    double joyTurn = m_joystick.getZ();
-    m_drivetrain.setArcadeDrive(joyForward, 0.7 * joyTurn);
+    //double sliderValue = -1.0 * m_xbox.getRawAxis(3);
+    //sliderValue = (sliderValue /2) + 0.5;
+    double joyForward = m_xbox.getRawAxis(Constants.OI.yAxis);
+    double joyTurn = m_xbox.getRawAxis(Constants.OI.xAxis);
+    if(Math.abs(joyForward) <  0.05 ) {
+      joyForward = 0.0;
+    }
+    if(Math.abs(joyTurn) < 0.05) {
+      joyTurn = 0.0;
+    }
+    m_drivetrain.setArcadeDrive(0.7*joyForward, 0.7 * joyTurn);
     // if(Math.abs(joyForward) < 0.1) {
     //   m_drivetrain.setArcadeDrive(sliderValue * joyForward, joyTurn, true);
     // } else {

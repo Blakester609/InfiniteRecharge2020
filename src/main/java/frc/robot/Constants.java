@@ -27,7 +27,7 @@ public final class Constants {
         public static final int PIDIDX = 0;
     }
     public static final class OI {
-        public static final int joyPort = 0;
+        public static final int XPort = 0;
         public static final int climbingJoystick = 1;
         public static final int xAxis = 0;
         public static final int yAxis = 1;
@@ -58,12 +58,13 @@ public final class Constants {
         public static final int topShooterSensorPort = 0;
     }
     public static final class Limelight{
-        public static final double cameraAngle = 10;
+        public static final double cameraAngle = 14.804;
+        public static final double mediumRange = 175;
         //Measurements in centimeters
-        public static final double targetHeight = 211.455;
-        public static final double cameraHeight = 93.98;
-        public static final double kpAim = 0.1;
-        public static final double kpDistance = 0.1;
+        public static final double targetHeight = 83.25;
+        public static final double cameraHeight = 37;
+        public static final double kpAim = 0.0001;
+        public static final double kpDistance = 0.0001;
         public static final double minTurnPower = 0.05;
     }
 }

@@ -10,17 +10,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LiftyThing;
 
-public class LiftyCommand extends CommandBase {
+public class LeftLiftyCommand extends CommandBase {
   /**
    * Creates a new LiftyCommand.
    */
   private final LiftyThing m_liftyThing;
   private final String upDown;
-  private final String leftRight;
-  public LiftyCommand(LiftyThing subsystem, String updown, String leftright) {
+  public LeftLiftyCommand(LiftyThing subsystem, String updown) {
     m_liftyThing = subsystem;
     upDown = updown;
-    leftRight = leftright;
+    addRequirements(m_liftyThing);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -33,16 +32,11 @@ public class LiftyCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("Lift Command running");
-    if (upDown == "up" && leftRight == "right"){
-      m_liftyThing.rightArmUp();
-    }
-    else if (upDown == "down" && leftRight == "right"){
-      m_liftyThing.rightArmDown();
-    }
-    else if (upDown == "up" && leftRight == "left"){
+    
+    if (upDown == "up"){
       m_liftyThing.leftArmUp();
     }
-    else if (upDown == "down" && leftRight == "left"){
+    if (upDown == "down"){
       m_liftyThing.leftArmDown();
     }
   }
@@ -51,12 +45,7 @@ public class LiftyCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("COMMAND STOPPED");
-    if (leftRight == "left"){
-      m_liftyThing.leftStopLift();
-    }
-    else if (leftRight == "right"){
-      m_liftyThing.rightStopLift();
-    }
+    m_liftyThing.leftStopLift();
   }
 
   // Returns true when the command should end.

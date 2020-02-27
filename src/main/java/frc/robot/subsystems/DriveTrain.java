@@ -101,8 +101,8 @@ public class DriveTrain extends SubsystemBase {
     motor4.follow(motor2);
 
     motor4.clearStickyFaults();
-    motor1.configOpenloopRamp(1, 20);
-    motor2.configOpenloopRamp(1, 20);
+    motor1.configOpenloopRamp(1.5, 20);
+    motor2.configOpenloopRamp(1.5, 20);
     frontBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.frontBallGate);
     backBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.backBallGate);
     frontBallGate.set(false);
@@ -229,9 +229,10 @@ public class DriveTrain extends SubsystemBase {
     double minDrive = Constants.Limelight.minTurnPower; //speed the motor will move the robot regardless of how miniscule the error is
     double kP = Constants.Limelight.kpAim; //constant for turn power
     double xOffset = limelightData.xOffset;
+    System.out.println(xOffset);
     double heading = 0.0; //should be opposite of offset (in signs)
 
-    if (xOffset > 1.0) {
+    if (xOffset < 1.0) {
         heading = ((kP * xOffset) + minDrive);
         System.out.println("GOING LEFT");
     } else { //xOffset less than or equal to 1.0
@@ -247,7 +248,7 @@ public void aimTowardsTarget(double speed) {
 }
 
   public LLData getData() {
-    double x = this.area.getDouble(0.0);
+    double x = this.xOffset.getDouble(0.0);
     double y = this.yOffset.getDouble(0.0);
     double area = this.area.getDouble(0.0);
     double skew = this.skew.getDouble(0.0);
@@ -260,8 +261,11 @@ public void aimTowardsTarget(double speed) {
     return distance;
   }
 
-  public void aimingInRange(){
-    
+  public void aimingInRange(double driveAdjust){
+    driveAdjust = Constants.Limelight.kpDistance * driveAdjust;
+    System.out.println("Heading error: " + getHeadingError());
+    System.out.println("driveAdjustment: " + driveAdjust);
+    setArcadeDrive(-driveAdjust, getHeadingError());
   }
   @Override
   public void periodic() {

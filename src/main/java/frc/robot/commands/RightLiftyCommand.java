@@ -8,51 +8,46 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.LiftyThing;
 
-public class AimWithLimelight extends CommandBase {
+public class RightLiftyCommand extends CommandBase {
   /**
-   * Creates a new AimWithLimelight.
+   * Creates a new RightLiftyCommand.
    */
-  private DriveTrain m_driveTrain;
-  private double driveAdjustment;
-  // private double delay = Math.ceil(RobotSettings.LL_DELAY * 50.0); //converts seconds to iterative values (1 sec = 50)
-  private double currentTimer = 0; //current timer
-  public AimWithLimelight(DriveTrain subsystem) {
-    m_driveTrain = subsystem;
-    addRequirements(m_driveTrain);
+  private final LiftyThing m_liftyThing;
+  private final String upDown;
+  public RightLiftyCommand(LiftyThing subsystem, String updown) {
+    m_liftyThing = subsystem;
+    upDown = updown;
+    addRequirements(m_liftyThing);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveAdjustment = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_driveTrain.getData().targetExists != 0.0) {
-      driveAdjustment = Constants.Limelight.mediumRange - m_driveTrain.estimatingDistance();
-      m_driveTrain.aimingInRange(driveAdjustment);
+    if (upDown == "up"){
+      m_liftyThing.rightArmUp();
     }
-     
+    if (upDown == "down"){
+      m_liftyThing.rightArmDown();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_liftyThing.rightStopLift();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isFinished = false;
-    if(driveAdjustment <= Constants.Limelight.mediumRange) {
-      isFinished = true;
-    }
-    return isFinished;
+    return false;
   }
 }

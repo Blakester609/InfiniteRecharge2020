@@ -38,15 +38,16 @@ public class LiftyThing extends SubsystemBase {
     public LiftyThing() {
       leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
       rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
-      leftMotor.follow(rightMotor); 
       rightMotor.clearFaults();
       leftMotor.clearFaults();
       rightEncoder = rightMotor.getEncoder();
       leftEncoder = leftMotor.getEncoder();
-      rightMotor.setOpenLoopRampRate(3);
-      rightMotor.setClosedLoopRampRate(3);
+      rightMotor.setOpenLoopRampRate(2);
+      leftMotor.setClosedLoopRampRate(2);
       rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float)44.047149658);
       rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+      leftMotor.setSoftLimit(SoftLimitDirection.kForward, (float)44.047149658);
+      leftMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
       //this is so I wouldn't have to set both to the same value
       clawOne = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawOne);
       clawTwo = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawTwo);
@@ -58,18 +59,20 @@ public class LiftyThing extends SubsystemBase {
   }
   public void rightArmUp(){
     System.out.println(rightEncoder.getPosition());
+    System.out.println("Is left following?: " + leftMotor.isFollower());
     //44.047149658
     rightMotor.set(0.6);
   }
   public void rightArmDown(){
     System.out.println(rightEncoder.getPosition());
-    rightMotor.set(-0.6);
+    rightMotor.set(-0.9);
   }
   public void leftArmUp(){
+    System.out.println("Is right following?: " + rightMotor.isFollower());
     leftMotor.set(0.6);
   }
   public void leftArmDown(){
-    leftMotor.set(-0.6);
+    leftMotor.set(-0.9);
   }
   public void clawOneSolenoidOn() {
     System.out.println("changed claw solenoid state");
