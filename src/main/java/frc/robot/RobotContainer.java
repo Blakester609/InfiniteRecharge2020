@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import frc.robot.commands.AimWithLimelight;
+import frc.robot.commands.AimingCommandTwo;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LeftLiftyCommand;
 
@@ -24,6 +25,7 @@ import frc.robot.commands.SpinnyCommand;
 import frc.robot.commands.SuckyCommand;
 import frc.robot.commands.SuckyWithSensor;
 import frc.robot.commands.TopSensor;
+import frc.robot.commands.VariableShootingSpeedCommand;
 import frc.robot.controller.XboxButton;
 import frc.robot.controller.XboxButton.Button;
 import frc.robot.subsystems.DriveTrain;
@@ -55,19 +57,20 @@ public class RobotContainer {
   private final SpinnyCommand m_rightspinnyCommand = new SpinnyCommand(m_shootyThing, "right");
   private final TopSensor m_topSensor = new TopSensor(m_shootyThing);
   private final LiftyThing m_liftyThing = new LiftyThing();
+  private final VariableShootingSpeedCommand m_variableShootingSpeedCommand= new VariableShootingSpeedCommand(m_shootyThing, driveController);
 
   private final RightLiftyCommand m_upRightLiftyCommand = new RightLiftyCommand(m_liftyThing, "up");
   private final RightLiftyCommand m_downRightLiftyCommand = new RightLiftyCommand(m_liftyThing, "down");
   private final LeftLiftyCommand m_downLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "down");
   private final LeftLiftyCommand m_upLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "up"); 
-  private final AimWithLimelight m_aiming = new AimWithLimelight(m_driveTrain);
+  private final AimingCommandTwo m_aiming = new AimingCommandTwo(m_driveTrain);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     CommandScheduler.getInstance().setDefaultCommand(m_driveTrain, m_driveCommand);
     CommandScheduler.getInstance().setDefaultCommand(m_shootyThing, m_suckyWithSensorCommand);
-    // CommandScheduler.getInstance().setDefaultCommand(m_liftyThing, m_upRightLiftyCommand);
+    // CommandScheduler.getInstance().setDefaultCommand(m_shootyThing, m_variableShootingSpeedCommand);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -82,6 +85,7 @@ public class RobotContainer {
     final XboxButton shootyButton;
     // final JoystickButton suckyButton;
     final XboxButton spinnyClockButton;
+    final XboxButton variableShootyButton;
     final XboxButton spinnyCounterclockButton;
     final JoystickButton clawOneOnButton; 
     final JoystickButton clawTwoOnButton; 
@@ -95,8 +99,8 @@ public class RobotContainer {
     final XboxButton aimingButton;
     shootyButton = new XboxButton(driveController, Button.Y);
    //  suckyButton = new JoystickButton(m_joystick, 2);
-    spinnyClockButton = new XboxButton(driveController, Button.X);
-    spinnyCounterclockButton = new XboxButton(driveController, Button.B);
+    spinnyClockButton = new XboxButton(driveController, Button.B);
+    spinnyCounterclockButton = new XboxButton(driveController, Button.X);
     clawOneOnButton = new JoystickButton(m_climbingJoystick, 5);
     clawTwoOnButton = new JoystickButton(m_climbingJoystick, 4);
     liftPistonOnButton = new JoystickButton(m_climbingJoystick, 1);
@@ -107,9 +111,11 @@ public class RobotContainer {
     downLeftLiftyButton = new JoystickButton(m_climbingJoystick, 8);
     downRightLiftyButton = new JoystickButton(m_climbingJoystick, 9);
     aimingButton = new XboxButton(driveController, Button.A);
+    variableShootyButton = new XboxButton(driveController, Button.StickRight);
     shootyButton.toggleWhenPressed(m_shootyCommand);
    // suckyButton.toggleWhenPressed(m_suckyCommand);
-    spinnyClockButton.whileHeld(m_rightspinnyCommand); 
+    spinnyClockButton.whileHeld(m_rightspinnyCommand);
+    variableShootyButton.whileHeld(m_variableShootingSpeedCommand);
     // Kira's amazing code
     // shpoofy 
     // downLeftLiftyButton.bootlegging@gmail.command

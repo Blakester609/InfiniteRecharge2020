@@ -11,16 +11,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 
-public class AimWithLimelight extends CommandBase {
+
+public class AimingCommandTwo extends CommandBase {
   /**
-   * Creates a new AimWithLimelight.
+   * Creates a new AimingCommandTwo.
    */
   private DriveTrain m_driveTrain;
-  private double driveAdjustment;
-  private double headingError;
-  // private double delay = Math.ceil(RobotSettings.LL_DELAY * 50.0); //converts seconds to iterative values (1 sec = 50)
-  private double currentTimer = 0; //current timer
-  public AimWithLimelight(DriveTrain subsystem) {
+  double KpAim = Constants.Limelight.kpAim;
+  double KpDistance = Constants.Limelight.kpDistance;
+  double min_aim_command = Constants.Limelight.minTurnPower;
+  double steeringAdjustment;
+  double distanceAdjust;
+  public AimingCommandTwo(DriveTrain subsystem) {
     m_driveTrain = subsystem;
     addRequirements(m_driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,18 +31,28 @@ public class AimWithLimelight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveAdjustment = 0;
-    headingError = 0;
+    steeringAdjustment = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_driveTrain.getData().targetExists != 0.0) {
-      driveAdjustment =m_driveTrain.estimatingDistance();
-      m_driveTrain.aimingInRange(driveAdjustment, headingError);
+    double headingError = -1.0 * m_driveTrain.getData().xOffset;
+    System.out.println("X offset: " + headingError);
+    double distanceError = -1.0 * m_driveTrain.getData().yOffset;
+    System.out.println("Y offset: " + distanceError);
+    if (m_driveTrain.getData().xOffset > 1.0)
+    {
+      steeringAdjustment = KpAim*headingError - min_aim_command;
     }
-     
+    else if (m_driveTrain.getData().xOffset < 1.0)
+    {
+      steeringAdjustment = KpAim*headingError + min_aim_command;
+    }
+    distanceAdjust = KpDistance*distanceError;
+    m_driveTrain.setArcadeDriveTwo(distanceAdjust, steeringAdjustment);
+    
+
   }
 
   // Called once the command ends or is interrupted.
@@ -51,12 +63,9 @@ public class AimWithLimelight extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((driveAdjustment - m_driveTrain.getData().yOffset) == 0) {
-      System.out.println("aiming command finished");
+    if(Math.abs(steeringAdjustment) <= 0.05 && Math.abs(distanceAdjust) <= 0.05) {
       return true;
-    } else {
-      return false;
     }
-    
+    return false;
   }
 }

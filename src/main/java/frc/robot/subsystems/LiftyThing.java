@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 public class LiftyThing extends SubsystemBase {
   private CANSparkMax leftMotor;
-  private CANSparkMax rightMotor;
-
+  // private CANSparkMax rightMotor;
+  //Right motor is commented out because it's broken. 
   private CANEncoder rightEncoder;
   private CANEncoder leftEncoder;
   private Solenoid clawOne;
@@ -37,15 +37,16 @@ public class LiftyThing extends SubsystemBase {
 
     public LiftyThing() {
       leftMotor = new CANSparkMax(Constants.Lifty.motor1, MotorType.kBrushless);
-      rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
-      rightMotor.clearFaults();
+      // rightMotor = new CANSparkMax(Constants.Lifty.motor2, MotorType.kBrushless);
+      // rightMotor.clearFaults();
       leftMotor.clearFaults();
-      rightEncoder = rightMotor.getEncoder();
+      // rightEncoder = rightMotor.getEncoder();
       leftEncoder = leftMotor.getEncoder();
-      rightMotor.setOpenLoopRampRate(2);
+      // rightMotor.setOpenLoopRampRate(2);
+      leftMotor.setOpenLoopRampRate(2);
       leftMotor.setClosedLoopRampRate(2);
-      rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float)44.047149658);
-      rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
+      // rightMotor.setSoftLimit(SoftLimitDirection.kForward, (float)44.047149658);
+      // rightMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
       leftMotor.setSoftLimit(SoftLimitDirection.kForward, (float)44.047149658);
       leftMotor.setSoftLimit(SoftLimitDirection.kReverse, 0);
       //this is so I wouldn't have to set both to the same value
@@ -61,18 +62,18 @@ public class LiftyThing extends SubsystemBase {
     System.out.println(rightEncoder.getPosition());
     System.out.println("Is left following?: " + leftMotor.isFollower());
     //44.047149658
-    rightMotor.set(0.6);
+    // rightMotor.set(0.65);
   }
   public void rightArmDown(){
     System.out.println(rightEncoder.getPosition());
-    rightMotor.set(-0.9);
+    // rightMotor.set(-0.65);
   }
   public void leftArmUp(){
-    System.out.println("Is right following?: " + rightMotor.isFollower());
-    leftMotor.set(0.6);
+    // System.out.println("Is right following?: " + rightMotor.isFollower());
+    leftMotor.set(0.65);
   }
   public void leftArmDown(){
-    leftMotor.set(-0.9);
+    leftMotor.set(-0.65);
   }
   public void clawOneSolenoidOn() {
     System.out.println("changed claw solenoid state");
@@ -90,7 +91,7 @@ public class LiftyThing extends SubsystemBase {
     liftStopPiston.set(liftStopPistonOn);
   }
   public void rightStopLift(){
-    rightMotor.stopMotor();
+    // rightMotor.stopMotor();
   }
   public void leftStopLift(){
     leftMotor.stopMotor();

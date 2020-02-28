@@ -43,7 +43,7 @@ public class ShootyThing extends SubsystemBase {
     shootyMotor = new WPI_TalonFX(Constants.Shooty.shootyMotor);
     suckyMotor = new VictorSPX(Constants.Shooty.suckyMotor);
     spinnyMotor = new VictorSPX(Constants.Shooty.spinnyMotor);
-    
+    spinnyMotor.setNeutralMode(NeutralMode.Brake);
     topSensor = new DigitalInput(Constants.Shooty.topShooterSensorPort);
     shootyMotor.configFactoryDefault();
     shootyMotor.setSensorPhase(true);
@@ -59,8 +59,12 @@ public class ShootyThing extends SubsystemBase {
 
 
   public void shooty(){
-    shootyMotor.set(ControlMode.PercentOutput, 0.8);
+    shootyMotor.set(ControlMode.PercentOutput, 0.78);
     //put Limelight stuff in later
+  }
+
+  public void shootyVariable(double speed) {
+    shootyMotor.set(ControlMode.PercentOutput, speed);
   }
   public boolean getTopSensorReading() {
     return topSensor.get();

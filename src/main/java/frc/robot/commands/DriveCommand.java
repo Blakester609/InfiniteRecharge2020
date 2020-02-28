@@ -42,10 +42,10 @@ public class DriveCommand extends CommandBase {
     //sliderValue = (sliderValue /2) + 0.5;
     double joyForward = m_xbox.getRawAxis(Constants.OI.yAxis);
     double joyTurn = m_xbox.getRawAxis(Constants.OI.xAxis);
-    if(Math.abs(joyForward) <  0.05 ) {
+    if(Math.abs(joyForward) <  0.1 ) {
       joyForward = 0.0;
     }
-    if(Math.abs(joyTurn) < 0.05) {
+    if(Math.abs(joyTurn) < 0.1) {
       joyTurn = 0.0;
     }
     m_drivetrain.setArcadeDrive(0.7*joyForward, 0.7 * joyTurn);

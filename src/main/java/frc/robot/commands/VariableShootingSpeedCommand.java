@@ -7,56 +7,57 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.ShootyThing;
 
-public class AimWithLimelight extends CommandBase {
+public class VariableShootingSpeedCommand extends CommandBase {
   /**
-   * Creates a new AimWithLimelight.
+   * Creates a new VariableShootingSpeedCommand.
    */
-  private DriveTrain m_driveTrain;
-  private double driveAdjustment;
-  private double headingError;
-  // private double delay = Math.ceil(RobotSettings.LL_DELAY * 50.0); //converts seconds to iterative values (1 sec = 50)
-  private double currentTimer = 0; //current timer
-  public AimWithLimelight(DriveTrain subsystem) {
-    m_driveTrain = subsystem;
-    addRequirements(m_driveTrain);
+  public final ShootyThing m_shootyThing;
+  private final XboxController m_xbox;
+  private double timer;
+  public VariableShootingSpeedCommand(ShootyThing subsystem, XboxController xbox) {
+    m_shootyThing = subsystem;
+    m_xbox = xbox;
+    addRequirements(m_shootyThing);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    driveAdjustment = 0;
-    headingError = 0;
+    timer = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_driveTrain.getData().targetExists != 0.0) {
-      driveAdjustment =m_driveTrain.estimatingDistance();
-      m_driveTrain.aimingInRange(driveAdjustment, headingError);
+    timer++;
+    double triggerAxisRight = m_xbox.getRawAxis(3);
+    double triggerAxisLeft = m_xbox.getRawAxis(2);
+    
+    if(triggerAxisRight > 0.1) {
+        m_shootyThing.shootyVariable(triggerAxisRight);
+        if(triggerAxisLeft > 0.1) {
+          m_shootyThing.sucky(-triggerAxisLeft);
+        } else {
+          m_shootyThing.sucky(0.0);
+        }
     }
-     
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_shootyThing.shootyStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((driveAdjustment - m_driveTrain.getData().yOffset) == 0) {
-      System.out.println("aiming command finished");
-      return true;
-    } else {
       return false;
-    }
     
   }
 }

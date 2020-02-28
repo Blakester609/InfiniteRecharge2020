@@ -33,8 +33,8 @@ public final class Constants {
         public static final int yAxis = 1;
     }
     public static final class Lifty {
-        public static final int motor1 = 10;
-        public static final int motor2 = 11;
+        public static final int motor1 = 6;
+        public static final int motor2 = 7;
 
         public static final int frontBallGate = 0;
         public static final int backBallGate = 1;
@@ -54,7 +54,7 @@ public final class Constants {
     public static final class Shooty {
         public static final int shootyMotor = 4;
         public static final int suckyMotor = 5;
-        public static final int spinnyMotor = 6;
+        public static final int spinnyMotor = 10;
         public static final int topShooterSensorPort = 0;
     }
     public static final class Limelight{
@@ -63,8 +63,9 @@ public final class Constants {
         //Measurements in centimeters
         public static final double targetHeight = 83.25;
         public static final double cameraHeight = 37;
-        public static final double kpAim = 0.0001;
-        public static final double kpDistance = 0.0001;
-        public static final double minTurnPower = 0.05;
+        // -0.0086;
+        public static final double kpAim = -0.0063;
+        public static final double kpDistance = 0.095;
+        public static final double minTurnPower = -0.02;
     }
 }

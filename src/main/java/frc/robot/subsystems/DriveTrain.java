@@ -72,6 +72,7 @@ public class DriveTrain extends SubsystemBase {
   private NetworkTableEntry validTarget;
   private NetworkTableEntry skew;
   private NetworkTableEntry tl;
+  private double heading;
 
   public DriveTrain() {
     motor1 = new WPI_TalonFX(Constants.Drive.motor1);
@@ -114,7 +115,7 @@ public class DriveTrain extends SubsystemBase {
     validTarget = table.getEntry("tv"); //Whether the limelight has a valid target (either 0 or 1)
     skew = table.getEntry("ts"); //Skew or rotation of target (-90.0 to 0.0 deg.)
     tl = table.getEntry("tl");
-
+    heading = 0.0;
     usbCamera = CameraServer.getInstance().startAutomaticCapture(0);
     gyroAngleRadians = () -> -1 * Math.toRadians(navx.getAngle());
     double encoderConstant =
@@ -183,6 +184,11 @@ public class DriveTrain extends SubsystemBase {
     motor1.set(ControlMode.PercentOutput, leftForward, DemandType.ArbitraryFeedForward, joyTurn);
     motor2.set(ControlMode.PercentOutput, rightForward, DemandType.ArbitraryFeedForward, joyTurn);
 }
+
+public void setArcadeDriveTwo(double joyForward, double joyTurn) {
+  motor1.set(ControlMode.PercentOutput, joyForward, DemandType.ArbitraryFeedForward, joyTurn);
+  motor2.set(ControlMode.PercentOutput, -joyForward, DemandType.ArbitraryFeedForward, joyTurn);
+}
   public void autonomousConfig(){
     double now = Timer.getFPGATimestamp();
     double leftPosition = leftEncoderPosition.get();
@@ -223,14 +229,16 @@ public class DriveTrain extends SubsystemBase {
       }
   }
 
-  public double getHeadingError() {
+
+
+  public double getHeadingError(double heading) {
     var limelightData = this.getData(); //Java 10 'var' automatically creates new LLData object.
  
     double minDrive = Constants.Limelight.minTurnPower; //speed the motor will move the robot regardless of how miniscule the error is
     double kP = Constants.Limelight.kpAim; //constant for turn power
     double xOffset = limelightData.xOffset;
     System.out.println(xOffset);
-    double heading = 0.0; //should be opposite of offset (in signs)
+     //should be opposite of offset (in signs)
 
     if (xOffset < 1.0) {
         heading = ((kP * xOffset) + minDrive);
@@ -244,7 +252,7 @@ public class DriveTrain extends SubsystemBase {
 }
 
 public void aimTowardsTarget(double speed) {
-  setArcadeDrive(speed, getHeadingError());
+  setArcadeDrive(speed, getHeadingError(heading));
 }
 
   public LLData getData() {
@@ -257,15 +265,15 @@ public void aimTowardsTarget(double speed) {
   }
   public double estimatingDistance(){
     double distance;
-    distance = (Constants.Limelight.targetHeight - Constants.Limelight.cameraHeight)/(Math.tan(Constants.Limelight.cameraAngle+this.getData().yOffset));
+    distance = this.getData().yOffset;
     return distance;
   }
 
-  public void aimingInRange(double driveAdjust){
+  public void aimingInRange(double driveAdjust, double heading){
     driveAdjust = Constants.Limelight.kpDistance * driveAdjust;
-    System.out.println("Heading error: " + getHeadingError());
+    System.out.println("Heading error: " + getHeadingError(heading));
     System.out.println("driveAdjustment: " + driveAdjust);
-    setArcadeDrive(-driveAdjust, getHeadingError());
+    setArcadeDrive(-driveAdjust, getHeadingError(heading));
   }
   @Override
   public void periodic() {

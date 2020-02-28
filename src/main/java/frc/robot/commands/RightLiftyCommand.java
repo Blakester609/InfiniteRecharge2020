@@ -9,7 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LiftyThing;
-
+//Right motor busted.
 public class RightLiftyCommand extends CommandBase {
   /**
    * Creates a new RightLiftyCommand.
