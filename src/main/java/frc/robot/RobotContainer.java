@@ -21,6 +21,7 @@ import frc.robot.commands.LeftLiftyCommand;
 import frc.robot.commands.RightLiftyCommand;
 import frc.robot.commands.ShootyCommand;
 import frc.robot.commands.SimpleAuton;
+import frc.robot.commands.SimpleAutonomousTwo;
 import frc.robot.commands.SpinnyCommand;
 import frc.robot.commands.SuckyCommand;
 import frc.robot.commands.SuckyWithSensor;
@@ -49,7 +50,8 @@ public class RobotContainer {
   private final DriveTrain m_driveTrain = new DriveTrain();
  private final DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, driveController); 
   private final SimpleAuton m_autoCommand = new SimpleAuton(m_driveTrain, m_shootyThing);
-  
+  private final SimpleAutonomousTwo m_basicAuto = new SimpleAutonomousTwo(m_driveTrain);
+
   private final ShootyCommand m_shootyCommand = new ShootyCommand(m_shootyThing);
   // private final SuckyCommand m_suckyCommand = new SuckyCommand(m_shootyThing);
   private final SuckyWithSensor m_suckyWithSensorCommand = new SuckyWithSensor(m_shootyThing);
@@ -64,6 +66,7 @@ public class RobotContainer {
   private final LeftLiftyCommand m_downLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "down");
   private final LeftLiftyCommand m_upLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "up"); 
   private final AimingCommandTwo m_aiming = new AimingCommandTwo(m_driveTrain);
+  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -143,7 +146,7 @@ public class RobotContainer {
    */
  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return m_basicAuto;
   }
 }
 
