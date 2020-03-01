@@ -59,7 +59,7 @@ public class ShootyThing extends SubsystemBase {
 
 
   public void shooty(){
-    shootyMotor.set(ControlMode.PercentOutput, 0.78);
+    shootyMotor.set(ControlMode.PercentOutput, 1.0);
     //put Limelight stuff in later
   }
 
@@ -96,10 +96,18 @@ public class ShootyThing extends SubsystemBase {
     System.out.println(topSensor.get());
   }
 
+  // public boolean isObjectInFrontOfColorSensors() {
+  //   if( (detectedColor2.green >= 0.48 && detectedColor2.red >= 0.26) || (detectedColor.green >= 0.49 && detectedColor.red >= 0. && detectedColor.blue >= 0.1)) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
   public void getColorFromSensor() {
     detectedColor = colorSensor.getColor();
     detectedColor2 = colorSensor2.getColor();
-    
+    boolean isSensorsTriggered = ((detectedColor2.green < 0.5 && detectedColor2.red < 0.3) && (detectedColor.green < 0.5 && detectedColor.red < 0.3));
+    boolean isSensorsNotTriggered = (detectedColor2.green >= 0.48 && detectedColor2.red >= 0.26) || (detectedColor.green >= 0.49 && detectedColor.red >= 0. && detectedColor.blue >= 0.1);
     // System.out.println("Color From sensor: "+ detectedColor);
     // System.out.println("Color From sensor2: "+ detectedColor2);
     // System.out.println("Red 2 -> " + detectedColor2.red);
@@ -108,14 +116,14 @@ public class ShootyThing extends SubsystemBase {
 
     if(getTopSensorReading()) {
       suckyStop();
-    } else if(((detectedColor2.green < 0.5 && detectedColor2.red < 0.3) && (detectedColor.green < 0.5 && detectedColor.red < 0.3))) {
+    } else if(isSensorsTriggered) {
         suckyStop();
-    } else if( (detectedColor2.green >= 0.48 && detectedColor2.red >= 0.26) || (detectedColor.green >= 0.49 && detectedColor.red >= 0. && detectedColor.blue >= 0.1)
-      ) {
+    } else if( isSensorsNotTriggered) {
         sucky(-0.4);
     }
     
   }
+
 
   public Color getColorOne() {
     return detectedColor = colorSensor.getColor();
@@ -147,6 +155,10 @@ public class ShootyThing extends SubsystemBase {
   }
   public double getShootyEncoderVel(){
     return shootyMotor.getSelectedSensorVelocity(0);
+  }
+
+  public double getShootingMotorSpeed() {
+    return shootyMotor.get();
   }
   
   @Override

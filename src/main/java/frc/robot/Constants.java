@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -25,6 +27,7 @@ public final class Constants {
         public static final double WHEEL_DIAMETER = 6.0;
         public static final double ENCODER_EDGES_PER_REV = 2048;
         public static final int PIDIDX = 0;
+		public static final boolean kGyroReversed = true;
     }
     public static final class OI {
         public static final int XPort = 0;
@@ -41,7 +44,6 @@ public final class Constants {
         public static final int clawOne = 2;
         public static final int clawTwo = 3;
         public static final int liftStopPiston = 4;
-
     }
     public static final class PIDConstantsDrivetrain {
         public static final double ksVolts = 0.228;
@@ -49,6 +51,12 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 0.0;
 
         public static final double kPDriveVel = 0.00000841;
+        public static final double kTrackWidthFeet = 0.3795244014766811;
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthFeet);
+        public static final double kMaxSpeedFeetPerSecond = 2;
+        public static final double kMaxAccelerationFeetPerSecond = 2;
+        public static final double kRamseteB = 6.56168;
+        public static final double kRamseteZeta = 2.29659;
     }
     
     public static final class Shooty {
@@ -64,8 +72,8 @@ public final class Constants {
         public static final double targetHeight = 83.25;
         public static final double cameraHeight = 37;
         // -0.0086;
-        public static final double kpAim = -0.0063;
-        public static final double kpDistance = 0.095;
+        public static final double kpAim = -0.012;
+        public static final double kpDistance = 0.085;
         public static final double minTurnPower = -0.02;
     }
 }

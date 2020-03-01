@@ -44,12 +44,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final XboxController driveController = new XboxController(Constants.OI.XPort);
   private final Joystick m_climbingJoystick = new Joystick(Constants.OI.climbingJoystick);
-  
+  private final ShootyThing m_shootyThing = new ShootyThing();
+
   private final DriveTrain m_driveTrain = new DriveTrain();
  private final DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, driveController); 
-  private final SimpleAuton m_autoCommand = new SimpleAuton(m_driveTrain);
+  private final SimpleAuton m_autoCommand = new SimpleAuton(m_driveTrain, m_shootyThing);
   
-  private final ShootyThing m_shootyThing = new ShootyThing();
   private final ShootyCommand m_shootyCommand = new ShootyCommand(m_shootyThing);
   // private final SuckyCommand m_suckyCommand = new SuckyCommand(m_shootyThing);
   private final SuckyWithSensor m_suckyWithSensorCommand = new SuckyWithSensor(m_shootyThing);
@@ -107,12 +107,12 @@ public class RobotContainer {
     frontGateOnButton = new XboxButton(driveController, Button.BumperRight);
     backGateOnButton = new XboxButton(driveController, Button.BumperLeft);
     upLeftLiftyButton = new JoystickButton(m_climbingJoystick, 3);
-    upRightLiftyButton = new JoystickButton(m_climbingJoystick, 2);
-    downLeftLiftyButton = new JoystickButton(m_climbingJoystick, 8);
-    downRightLiftyButton = new JoystickButton(m_climbingJoystick, 9);
+    // upRightLiftyButton = new JoystickButton(m_climbingJoystick, 8);
+    downLeftLiftyButton = new JoystickButton(m_climbingJoystick, 2);
+    // downRightLiftyButton = new JoystickButton(m_climbingJoystick, 9);
     aimingButton = new XboxButton(driveController, Button.A);
     variableShootyButton = new XboxButton(driveController, Button.StickRight);
-    shootyButton.toggleWhenPressed(m_shootyCommand);
+    // shootyButton.toggleWhenPressed(m_shootyCommand);
    // suckyButton.toggleWhenPressed(m_suckyCommand);
     spinnyClockButton.whileHeld(m_rightspinnyCommand);
     variableShootyButton.whileHeld(m_variableShootingSpeedCommand);
@@ -129,10 +129,10 @@ public class RobotContainer {
     frontGateOnButton.whenPressed(new InstantCommand(m_driveTrain::frontGateSolenoidOn, m_driveTrain));
     backGateOnButton.whenPressed(new InstantCommand(m_driveTrain::backGateSolenoidOn, m_driveTrain));
     upLeftLiftyButton.whileHeld(m_upLeftLiftyCommand);
-    upRightLiftyButton.whileHeld(m_upRightLiftyCommand);
-    downRightLiftyButton.whileHeld(m_downRightLiftyCommand);
+    // upRightLiftyButton.whileHeld(m_upRightLiftyCommand);
+    // downRightLiftyButton.whileHeld(m_downRightLiftyCommand);
     downLeftLiftyButton.whileHeld(m_downLeftLiftyCommand);
-    aimingButton.toggleWhenPressed(m_aiming);
+    aimingButton.toggleWhenPressed(m_aiming.andThen(m_shootyCommand));
   }
 
 

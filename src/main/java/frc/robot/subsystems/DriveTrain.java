@@ -19,7 +19,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-
 import edu.wpi.first.wpilibj.Solenoid;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -35,15 +34,19 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 public class DriveTrain extends SubsystemBase {
-  private WPI_TalonFX motor1;
-  private WPI_TalonFX motor2;
-  private WPI_TalonFX motor3;
-  private WPI_TalonFX motor4;
+  private final WPI_TalonFX motor1;
+  private final WPI_TalonFX motor2;
+  private final WPI_TalonFX motor3;
+  private final WPI_TalonFX motor4;
 
 
-  private Solenoid frontBallGate;
-  private Solenoid backBallGate;
+  private final Solenoid frontBallGate;
+  private final Solenoid backBallGate;
 
   private boolean frontBallGateOn = false;
   private boolean backBallGateOn = false;
@@ -53,8 +56,8 @@ public class DriveTrain extends SubsystemBase {
   Supplier<Double> rightEncoderPosition;
   Supplier<Double> rightEncoderRate;
   Supplier<Double> gyroAngleRadians;
-  private UsbCamera usbCamera;
-
+  private final UsbCamera usbCamera;
+  private final DifferentialDriveOdometry odometry;
   NetworkTableEntry autoSpeedEntry =
       NetworkTableInstance.getDefault().getEntry("/robot/autospeed");
   NetworkTableEntry telemetryEntry =
@@ -65,14 +68,14 @@ public class DriveTrain extends SubsystemBase {
   double priorAutospeed = 0;
   Number[] numberArray = new Number[10];
   
-  private NetworkTable table;
-  private NetworkTableEntry xOffset;
-  private NetworkTableEntry yOffset;
-  private NetworkTableEntry area; 
-  private NetworkTableEntry validTarget;
-  private NetworkTableEntry skew;
-  private NetworkTableEntry tl;
-  private double heading;
+  private final NetworkTable table;
+  private final NetworkTableEntry xOffset;
+  private final NetworkTableEntry yOffset;
+  private final NetworkTableEntry area; 
+  private final NetworkTableEntry validTarget;
+  private final NetworkTableEntry skew;
+  private final NetworkTableEntry tl;
+  private final double heading;
 
   public DriveTrain() {
     motor1 = new WPI_TalonFX(Constants.Drive.motor1);
@@ -100,7 +103,6 @@ public class DriveTrain extends SubsystemBase {
     motor4.configNeutralDeadband(0.05);
     motor3.follow(motor1);
     motor4.follow(motor2);
-
     motor4.clearStickyFaults();
     motor1.configOpenloopRamp(1.5, 20);
     motor2.configOpenloopRamp(1.5, 20);
@@ -118,7 +120,10 @@ public class DriveTrain extends SubsystemBase {
     heading = 0.0;
     usbCamera = CameraServer.getInstance().startAutomaticCapture(0);
     gyroAngleRadians = () -> -1 * Math.toRadians(navx.getAngle());
-    double encoderConstant =
+    final double gyroAngle = navx.getAngle();
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+
+    final double encoderConstant =
         (1 / Constants.Drive.ENCODER_EDGES_PER_REV) * Constants.Drive.WHEEL_DIAMETER * Math.PI;
 
     motor1.configSelectedFeedbackSensor(
@@ -145,6 +150,7 @@ public class DriveTrain extends SubsystemBase {
     NetworkTableInstance.getDefault().setUpdateRate(0.010);
    }
    
+   
   public void frontGateSolenoidOn() {
     frontBallGateOn = !frontBallGateOn;
     frontBallGate.set(frontBallGateOn);
@@ -161,7 +167,7 @@ public class DriveTrain extends SubsystemBase {
   //      diffDrive.curvatureDrive(-joyForward, joyTurn, isQuickTurnOn);
   // }
 
-  public void setArcadeDrive(double joyForward, double joyTurn) {
+  public void setArcadeDrive(final double joyForward, final double joyTurn) {
     double rightForward;
     double leftForward;
     // if(Math.abs(joyTurn) > 0.4) {
@@ -185,20 +191,20 @@ public class DriveTrain extends SubsystemBase {
     motor2.set(ControlMode.PercentOutput, rightForward, DemandType.ArbitraryFeedForward, joyTurn);
 }
 
-public void setArcadeDriveTwo(double joyForward, double joyTurn) {
+public void setArcadeDriveTwo(final double joyForward, final double joyTurn) {
   motor1.set(ControlMode.PercentOutput, joyForward, DemandType.ArbitraryFeedForward, joyTurn);
   motor2.set(ControlMode.PercentOutput, -joyForward, DemandType.ArbitraryFeedForward, joyTurn);
 }
   public void autonomousConfig(){
-    double now = Timer.getFPGATimestamp();
-    double leftPosition = leftEncoderPosition.get();
-    double leftRate = leftEncoderRate.get();
-    double rightPosition = rightEncoderPosition.get();
-    double rightRate = rightEncoderRate.get();
-    double battery = RobotController.getBatteryVoltage();
-    double leftMotorVolts = motor1.getMotorOutputVoltage();
-    double rightMotorVolts = motor2.getMotorOutputVoltage();
-    double autospeed = autoSpeedEntry.getDouble(0);
+    final double now = Timer.getFPGATimestamp();
+    final double leftPosition = leftEncoderPosition.get();
+    final double leftRate = leftEncoderRate.get();
+    final double rightPosition = rightEncoderPosition.get();
+    final double rightRate = rightEncoderRate.get();
+    final double battery = RobotController.getBatteryVoltage();
+    final double leftMotorVolts = motor1.getMotorOutputVoltage();
+    final double rightMotorVolts = motor2.getMotorOutputVoltage();
+    final double autospeed = autoSpeedEntry.getDouble(0);
     priorAutospeed = autospeed;
     motor1.set(ControlMode.PercentOutput, (rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, DemandType.ArbitraryFeedForward,  autospeed);
     motor2.set(ControlMode.PercentOutput, (rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, DemandType.ArbitraryFeedForward,  autospeed);
@@ -220,7 +226,7 @@ public void setArcadeDriveTwo(double joyForward, double joyTurn) {
    public static class LLData {
     public final double xOffset, yOffset, area, targetExists, skew;
 
-    public LLData(double xOffset, double yOffset, double area, double targetExists, double skew) {
+    public LLData(final double xOffset, final double yOffset, final double area, final double targetExists, final double skew) {
         this.xOffset = xOffset;    
         this.yOffset = yOffset;
         this.area = area;
@@ -232,11 +238,11 @@ public void setArcadeDriveTwo(double joyForward, double joyTurn) {
 
 
   public double getHeadingError(double heading) {
-    var limelightData = this.getData(); //Java 10 'var' automatically creates new LLData object.
+    final var limelightData = this.getData(); //Java 10 'var' automatically creates new LLData object.
  
-    double minDrive = Constants.Limelight.minTurnPower; //speed the motor will move the robot regardless of how miniscule the error is
-    double kP = Constants.Limelight.kpAim; //constant for turn power
-    double xOffset = limelightData.xOffset;
+    final double minDrive = Constants.Limelight.minTurnPower; //speed the motor will move the robot regardless of how miniscule the error is
+    final double kP = Constants.Limelight.kpAim; //constant for turn power
+    final double xOffset = limelightData.xOffset;
     System.out.println(xOffset);
      //should be opposite of offset (in signs)
 
@@ -251,16 +257,16 @@ public void setArcadeDriveTwo(double joyForward, double joyTurn) {
     return heading;
 }
 
-public void aimTowardsTarget(double speed) {
+public void aimTowardsTarget(final double speed) {
   setArcadeDrive(speed, getHeadingError(heading));
 }
 
   public LLData getData() {
-    double x = this.xOffset.getDouble(0.0);
-    double y = this.yOffset.getDouble(0.0);
-    double area = this.area.getDouble(0.0);
-    double skew = this.skew.getDouble(0.0);
-    double v = this.validTarget.getDouble(0.0);
+    final double x = this.xOffset.getDouble(0.0);
+    final double y = this.yOffset.getDouble(0.0);
+    final double area = this.area.getDouble(0.0);
+    final double skew = this.skew.getDouble(0.0);
+    final double v = this.validTarget.getDouble(0.0);
     return new DriveTrain.LLData(x, y, area, v, skew);
   }
   public double estimatingDistance(){
@@ -269,7 +275,7 @@ public void aimTowardsTarget(double speed) {
     return distance;
   }
 
-  public void aimingInRange(double driveAdjust, double heading){
+  public void aimingInRange(double driveAdjust, final double heading){
     driveAdjust = Constants.Limelight.kpDistance * driveAdjust;
     System.out.println("Heading error: " + getHeadingError(heading));
     System.out.println("driveAdjustment: " + driveAdjust);
@@ -277,6 +283,40 @@ public void aimTowardsTarget(double speed) {
   }
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    odometry.update(Rotation2d.fromDegrees(getHeading()), leftEncoderPosition.get(), rightEncoderPosition.get());
+  }
+  public double getHeading(){
+    return Math.IEEEremainder(navx.getAngle(), 360) * (Constants.Drive.kGyroReversed ? -1.0:1.0);
+  }
+  public Pose2d getPose(){
+    return odometry.getPoseMeters();
+  }
+  public DifferentialDriveWheelSpeeds getWheelSpeeds(){
+    return new DifferentialDriveWheelSpeeds(leftEncoderPosition.get(), rightEncoderRate.get());
+  }
+  public void resetOdometry(final Pose2d pose){
+    motor1.setSelectedSensorPosition(0);
+    motor2.setSelectedSensorPosition(0);
+    odometry.resetPosition(pose, Rotation2d.fromDegrees(getHeading()));
+  }
+  public void tankDriveVolts(final double leftVolts, final double rightVolts){
+    motor1.setVoltage(leftVolts);
+    motor2.setVoltage(-rightVolts);
+    motor1.feed();
+    motor2.feed();
+  }
+  public void resetEncoders(){
+    motor1.setSelectedSensorPosition(0);
+    motor2.setSelectedSensorPosition(0);
+  }
+  public double getAverageEncoderDistance(){
+    return (leftEncoderPosition.get() + rightEncoderPosition.get())/2.0;
+  }
+  public void setMaxOutput(double maxOutput){
+    motor1.configClosedLoopPeakOutput(Constants.Drive.PIDIDX, maxOutput, 20);
+    motor2.configClosedLoopPeakOutput(Constants.Drive.PIDIDX, maxOutput, 20);
+  }
+  public void zeroHeading(){
+    navx.reset();
   }
 }

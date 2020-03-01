@@ -33,7 +33,7 @@ public class ShootyCommand extends CommandBase {
     isMotorOn = !isMotorOn;
     if(isMotorOn) {
       m_shootyThing.shooty();
-     m_shootyThing.sucky(-suckyMotorSpeed);  
+      m_shootyThing.sucky(0.0);  
     } else {
       m_shootyThing.sucky(0.0);
       m_shootyThing.shootyStop();
@@ -53,8 +53,8 @@ public class ShootyCommand extends CommandBase {
     // if( (m_shootyThing.getColorTwo().green >= 0.48 && m_shootyThing.getColorTwo().red >= 0.26) || (m_shootyThing.getColorOne().green >= 0.49 && m_shootyThing.getColorOne().red >= 0. && m_shootyThing.getColorOne().blue >= 0.1)
     //   ) {
         System.out.println(m_shootyThing.getShootyEncoderVel());
-        if (m_shootyThing.getShootyEncoderVel() >= 14000 && timer >= 70){
-          m_shootyThing.sucky(-suckyMotorSpeed); 
+        if (m_shootyThing.getShootyEncoderVel() >= 17000 && timer >= 70){
+          m_shootyThing.sucky(-1.0); 
           isMotorOn = true;    
         } 
       // }
