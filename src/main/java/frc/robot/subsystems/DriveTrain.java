@@ -17,6 +17,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -45,11 +47,11 @@ public class DriveTrain extends SubsystemBase {
   private final WPI_TalonFX motor4;
 
 
-  private final Solenoid frontBallGate;
-  private final Solenoid backBallGate;
+  // private final Solenoid frontBallGate;
+  // private final Solenoid backBallGate;
 
-  private boolean frontBallGateOn = false;
-  private boolean backBallGateOn = false;
+  // private boolean frontBallGateOn = false;
+  // private boolean backBallGateOn = false;
 
   Supplier<Double> leftEncoderPosition;
   Supplier<Double> leftEncoderRate;
@@ -79,37 +81,66 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain() {
     motor1 = new WPI_TalonFX(Constants.Drive.motor1);
-    motor1.setInverted(false);
-    motor1.setSensorPhase(false);
+    // motor1.setInverted(false);
+    // motor1.setSensorPhase(false);
+    motor1.configFactoryDefault();
+    
     motor1.setNeutralMode(NeutralMode.Brake);
     motor1.configNeutralDeadband(0.05);
+    // motor1.configVoltageCompSaturation(11);
+    // motor1.enableVoltageCompensation(true);
+    // motor1.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, -10, -15, 1.0));
+    // motor1.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, -7, -12, 1.0));
+    
     motor1.clearStickyFaults();
     motor2 = new WPI_TalonFX(Constants.Drive.motor2);
-    motor2.setInverted(false);
-    motor2.setSensorPhase(false);
+    // motor2.setInverted(false);
+    // motor2.setSensorPhase(false);
+    motor2.configFactoryDefault();
+    
     motor2.setNeutralMode(NeutralMode.Brake);
+    // motor2.configVoltageCompSaturation(11);
+    // motor2.enableVoltageCompensation(true);
     motor2.configNeutralDeadband(0.05);
+    // motor2.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, -10, -15, 1.0));
+    // motor2.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, -7, -12, 1.0));
+    
     motor2.clearStickyFaults();
     motor3 = new WPI_TalonFX(Constants.Drive.motor3);
-    motor3.setInverted(false);
-    motor3.setSensorPhase(false);
+    // motor3.setInverted(false);
+    // motor3.setSensorPhase(false);
+    motor3.configFactoryDefault();
+    
     motor3.setNeutralMode(NeutralMode.Brake);
+    // motor3.configVoltageCompSaturation(11);
+    // motor3.enableVoltageCompensation(true);
     motor3.configNeutralDeadband(0.05);
+    // motor3.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, -10, -15, 1.0));
+    // motor3.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, -7, -12, 1.0));
+    
     motor3.clearStickyFaults();
+    
     motor4 = new WPI_TalonFX(Constants.Drive.motor4);
-    motor4.setInverted(false);
-    motor4.setSensorPhase(false);
+    // motor4.setInverted(false);
+    // motor4.setSensorPhase(false);
+    motor4.configFactoryDefault();
+    
     motor4.setNeutralMode(NeutralMode.Brake);
+    // motor4.configVoltageCompSaturation(11);
+    // motor4.enableVoltageCompensation(true);
     motor4.configNeutralDeadband(0.05);
+    // motor4.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, -10, -15, 1.0));
+    // motor4.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, -7, -12, 1.0));
+    
     motor3.follow(motor1);
     motor4.follow(motor2);
     motor4.clearStickyFaults();
     motor1.configOpenloopRamp(1.5, 20);
     motor2.configOpenloopRamp(1.5, 20);
-    frontBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.frontBallGate);
-    backBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.backBallGate);
-    frontBallGate.set(false);
-    backBallGate.set(false);
+    // frontBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.frontBallGate);
+    // backBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.backBallGate);
+    // frontBallGate.set(false);
+    // backBallGate.set(false);
     table = NetworkTableInstance.getDefault().getTable("limelight");
     xOffset = table.getEntry("tx");
     yOffset = table.getEntry("ty");
@@ -151,16 +182,16 @@ public class DriveTrain extends SubsystemBase {
    }
    
    
-  public void frontGateSolenoidOn() {
-    frontBallGateOn = !frontBallGateOn;
-    frontBallGate.set(frontBallGateOn);
+  // public void frontGateSolenoidOn() {
+  //   frontBallGateOn = !frontBallGateOn;
+  //   frontBallGate.set(frontBallGateOn);
     
-  }
+  // }
 
-  public void backGateSolenoidOn() {
-    backBallGateOn = !backBallGateOn;
-    backBallGate.set(backBallGateOn);
-  }
+  // public void backGateSolenoidOn() {
+  //   backBallGateOn = !backBallGateOn;
+  //   backBallGate.set(backBallGateOn);
+  // }
   
   
   //  public void setArcadeDrive(double joyForward, double joyTurn, boolean isQuickTurnOn){
@@ -189,11 +220,13 @@ public class DriveTrain extends SubsystemBase {
     // }
     motor1.set(ControlMode.PercentOutput, leftForward, DemandType.ArbitraryFeedForward, joyTurn);
     motor2.set(ControlMode.PercentOutput, rightForward, DemandType.ArbitraryFeedForward, joyTurn);
+    // System.out.println("Motor 1 output: " + motor1.get());
+    // System.out.println("Motor 2 output: " + motor2.get());
 }
 
 public void setArcadeDriveTwo(final double joyForward, final double joyTurn) {
   motor1.set(ControlMode.PercentOutput, joyForward, DemandType.ArbitraryFeedForward, joyTurn);
-  motor2.set(ControlMode.PercentOutput, -joyForward, DemandType.ArbitraryFeedForward, joyTurn);
+  motor2.set(ControlMode.PercentOutput, -joyForward, DemandType.ArbitraryFeedForward, joyTurn); 
 }
   public void autonomousConfig(){
     final double now = Timer.getFPGATimestamp();
@@ -319,4 +352,7 @@ public void aimTowardsTarget(final double speed) {
   public void zeroHeading(){
     navx.reset();
   }
+
+
+
 }

@@ -9,6 +9,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -46,10 +49,26 @@ public class ShootyThing extends SubsystemBase {
     spinnyMotor.setNeutralMode(NeutralMode.Brake);
     topSensor = new DigitalInput(Constants.Shooty.topShooterSensorPort);
     shootyMotor.configFactoryDefault();
-    shootyMotor.setSensorPhase(true);
-    shootyMotor.setNeutralMode(NeutralMode.Brake);
+    // shootyMotor.setSensorPhase(true);
+    
     shootyMotor.setInverted(TalonFXInvertType.Clockwise);
-    shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 20);
+    shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.PIDConstantsShooter.pidSlot0, Constants.PIDConstantsShooter.kTimeoutMS);
+    // shootyMotor.configVoltageCompSaturation(11);
+    // shootyMotor.enableVoltageCompensation(true);
+    // shootyMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 10, 15, 1.0));
+     // shootyMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 8, 12, 1.0));
+    shootyMotor.config_kF(Constants.PIDConstantsShooter.pidSlot0, Constants.PIDConstantsShooter.kFShooter);
+    shootyMotor.config_kP(Constants.PIDConstantsShooter.pidSlot0, Constants.PIDConstantsShooter.kPShooter);
+    shootyMotor.config_kI(Constants.PIDConstantsShooter.pidSlot0, Constants.PIDConstantsShooter.kIShooter);
+    shootyMotor.config_kD(Constants.PIDConstantsShooter.pidSlot0, Constants.PIDConstantsShooter.kDShooter);
+    shootyMotor.configNominalOutputForward(0, Constants.PIDConstantsShooter.kTimeoutMS);
+		shootyMotor.configNominalOutputReverse(0, Constants.PIDConstantsShooter.kTimeoutMS);
+		shootyMotor.configPeakOutputForward(1, Constants.PIDConstantsShooter.kTimeoutMS);
+		shootyMotor.configPeakOutputReverse(-1, Constants.PIDConstantsShooter.kTimeoutMS);
+
+
+     shootyMotor.clearStickyFaults();
+    shootyMotor.setNeutralMode(NeutralMode.Brake);
     colorSensor = new ColorSensorV3(Port.kOnboard);
     colorSensor2 = new ColorSensorV3(Port.kMXP);
     
@@ -59,12 +78,13 @@ public class ShootyThing extends SubsystemBase {
 
 
   public void shooty(){
-    shootyMotor.set(ControlMode.PercentOutput, 1.0);
+    shootyMotor.set(ControlMode.PercentOutput, 0.7);
     //put Limelight stuff in later
   }
 
   public void shootyVariable(double speed) {
     shootyMotor.set(ControlMode.PercentOutput, speed);
+    System.out.println("shootyMotor value: " + shootyMotor.getSelectedSensorVelocity());
   }
   public boolean getTopSensorReading() {
     return topSensor.get();
@@ -75,10 +95,10 @@ public class ShootyThing extends SubsystemBase {
   }
   public void spinny(String leftRight){
     if (leftRight == "right"){
-      spinnyMotor.set(ControlMode.PercentOutput,1.0);
+      spinnyMotor.set(ControlMode.PercentOutput,0.7);
     }
     else if (leftRight == "left"){
-      spinnyMotor.set(ControlMode.PercentOutput, -1.0);
+      spinnyMotor.set(ControlMode.PercentOutput, -0.7);
     }  
     //Set actual motor values later
   }
@@ -161,6 +181,18 @@ public class ShootyThing extends SubsystemBase {
     return shootyMotor.get();
   }
   
+  public void setShooty22FeetVelocity() {
+    double targetVelocity = 15800;
+    shootyMotor.set(TalonFXControlMode.Velocity, targetVelocity);
+    System.out.println("Shooting Motor Velocity: " + getShootyEncoderVel());
+  }
+
+  public void setShooty33FeetVelocity() {
+    double targetVelocity = 19900;
+    shootyMotor.set(TalonFXControlMode.Velocity, targetVelocity);
+    System.out.println("Shooting Motor Velocity: " + getShootyEncoderVel());
+  }
+
   @Override
   public void periodic() {
    // getColorFromSensor();

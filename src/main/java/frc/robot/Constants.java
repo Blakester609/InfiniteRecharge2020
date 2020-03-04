@@ -39,11 +39,11 @@ public final class Constants {
         public static final int motor1 = 6;
         public static final int motor2 = 7;
 
-        public static final int frontBallGate = 0;
-        public static final int backBallGate = 1;
-        public static final int clawOne = 2;
+        public static final int frontBallGate = 2;
+        public static final int backBallGate = 4;
+        public static final int clawOne = 0;
         public static final int clawTwo = 3;
-        public static final int liftStopPiston = 4;
+        public static final int liftStopPiston = 1;
     }
     public static final class PIDConstantsDrivetrain {
         public static final double ksVolts = 0.228;
@@ -51,8 +51,8 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 0.0;
 
         public static final double kPDriveVel = 0.00000841;
-        public static final double kTrackWidthFeet = 0.3795244014766811;
-        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthFeet);
+        public static final double kTrackWidthMeters = 0.5715;
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
         public static final double kMaxSpeedFeetPerSecond = 2;
         public static final double kMaxAccelerationFeetPerSecond = 2;
         public static final double kRamseteB = 6.56168;
@@ -65,6 +65,14 @@ public final class Constants {
         public static final int spinnyMotor = 10;
         public static final int topShooterSensorPort = 0;
     }
+    public static final class PIDConstantsShooter {
+        public static final int pidSlot0 = 0;
+        public static final double kFShooter = (1.0 * 1023) / 19833;
+        public static final double kPShooter = 0.004;
+        public static final double kIShooter = 0.0000000001;
+        public static final double kDShooter = 0.0009;
+        public static final int kTimeoutMS = 20;
+    }
     public static final class Limelight{
         public static final double cameraAngle = 14.804;
         public static final double mediumRange = 175;
@@ -73,7 +81,7 @@ public final class Constants {
         public static final double cameraHeight = 37;
         // -0.0086;
         public static final double kpAim = -0.012;
-        public static final double kpDistance = 0.085;
-        public static final double minTurnPower = -0.02;
+        public static final double kpDistance = 0.08;
+        public static final double minTurnPower = -0.01;
     }
 }

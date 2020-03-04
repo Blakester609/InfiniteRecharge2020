@@ -42,6 +42,8 @@ public class DriveCommand extends CommandBase {
     //sliderValue = (sliderValue /2) + 0.5;
     double joyForward = m_xbox.getRawAxis(Constants.OI.yAxis);
     double joyTurn = m_xbox.getRawAxis(Constants.OI.xAxis);
+    // System.out.println("Y axis: " + joyForward);
+    // System.out.println("X axis: " + joyTurn);
     if(Math.abs(joyForward) <  0.1 ) {
       joyForward = 0.0;
     }

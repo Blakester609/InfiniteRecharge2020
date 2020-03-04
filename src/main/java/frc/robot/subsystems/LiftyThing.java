@@ -54,6 +54,7 @@ public class LiftyThing extends SubsystemBase {
       clawTwo = new Solenoid(Constants.pcmChannel, Constants.Lifty.clawTwo);
       liftStopPiston = new Solenoid(Constants.pcmChannel,Constants.Lifty.liftStopPiston);
       
+      liftStopPiston.set(true);
       clawOne.set(false);
       clawTwo.set(false);
       

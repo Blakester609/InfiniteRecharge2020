@@ -7,21 +7,19 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ShootyThing;
 
-public class SimpleAutonomousTwo extends CommandBase {
+public class SetLauncherNearTrench extends CommandBase {
   /**
-   * Creates a new SimpleAutonomousTwo.
+   * Creates a new SetLauncherNearTrench.
    */
-  private final DriveTrain m_driveTrain;
-  private final ShootyThing m_shootyThing;
-  double timer;
-  public SimpleAutonomousTwo(DriveTrain subsystem, ShootyThing subsystem2) {
-    m_driveTrain = subsystem;
-    addRequirements(m_driveTrain);
-    m_shootyThing = subsystem2;
+  public final ShootyThing m_shootyThing;
+  private final XboxController m_xbox;
+  public SetLauncherNearTrench(ShootyThing subsystem, XboxController xbox) {
+    m_shootyThing = subsystem;
+    m_xbox = xbox;
     addRequirements(m_shootyThing);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -29,38 +27,22 @@ public class SimpleAutonomousTwo extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer++;
-    if (timer <= 100){
-      m_shootyThing.shooty();
-      if(m_shootyThing.getShootyEncoderVel() >= 12000) {
-        m_shootyThing.sucky(-1.0);
-      }
-      
-    }
-    if (timer >= 100 && timer <=101){
-      m_shootyThing.shootyStop();
-    }
-    if(timer >= 102 && timer <= 152) {
-      m_driveTrain.setArcadeDrive(0.4, 0);
-    }
+    m_shootyThing.setShooty33FeetVelocity();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_driveTrain.setArcadeDrive(0, 0);
-    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer >= 152;
+    return false;
   }
 }
