@@ -23,6 +23,7 @@ import frc.robot.commands.LeftLiftyCommand;
 
 import frc.robot.commands.RightLiftyCommand;
 import frc.robot.commands.SetLauncherVelicityFarTrench;
+import frc.robot.commands.ShootCloseRange;
 import frc.robot.commands.ShootyCommand;
 import frc.robot.commands.SimpleAuton;
 import frc.robot.commands.SimpleAutonomousTwo;
@@ -73,6 +74,7 @@ public class RobotContainer {
   private final LeftLiftyCommand m_downLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "down");
   private final LeftLiftyCommand m_upLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "up"); 
   private final AimingCommandTwo m_aiming = new AimingCommandTwo(m_driveTrain);
+  private final ShootCloseRange m_shootCloseRange = new ShootCloseRange(m_shootyThing, driveController);
 
   private SendableChooser<String> autonomousChooser = new SendableChooser<>();
   Command autoCommand = m_basicAuto;
@@ -131,7 +133,7 @@ public class RobotContainer {
     clawOneOnButton = new JoystickButton(m_climbingJoystick, 5);
     clawTwoOnButton = new JoystickButton(m_climbingJoystick, 4);
     liftPistonOnButton = new JoystickButton(m_climbingJoystick, 1);
-    // frontGateOnButton = new XboxButton(driveController, Button.BumperRight);
+    frontGateOnButton = new XboxButton(driveController, Button.BumperRight);
     // backGateOnButton = new XboxButton(driveController, Button.BumperLeft);
     upLeftLiftyButton = new JoystickButton(m_climbingJoystick, 3);
     // upRightLiftyButton = new JoystickButton(m_climbingJoystick, 8);
@@ -154,6 +156,7 @@ public class RobotContainer {
     liftPistonOnButton.whenPressed(new InstantCommand(m_liftyThing::setLiftStopPiston, m_liftyThing));
 
     // frontGateOnButton.whenPressed(new InstantCommand(m_driveTrain::frontGateSolenoidOn, m_driveTrain));
+    frontGateOnButton.whileHeld(m_shootCloseRange);
     // backGateOnButton.whenPressed(new InstantCommand(m_driveTrain::backGateSolenoidOn, m_driveTrain));
     upLeftLiftyButton.whileHeld(m_upLeftLiftyCommand);
     // upRightLiftyButton.whileHeld(m_upRightLiftyCommand);
