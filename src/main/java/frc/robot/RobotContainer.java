@@ -156,7 +156,7 @@ public class RobotContainer {
     liftPistonOnButton.whenPressed(new InstantCommand(m_liftyThing::setLiftStopPiston, m_liftyThing));
 
     // frontGateOnButton.whenPressed(new InstantCommand(m_driveTrain::frontGateSolenoidOn, m_driveTrain));
-    frontGateOnButton.whileHeld(m_shootCloseRange);
+    //frontGateOnButton.whileHeld(m_shootCloseRange);
     // backGateOnButton.whenPressed(new InstantCommand(m_driveTrain::backGateSolenoidOn, m_driveTrain));
     upLeftLiftyButton.whileHeld(m_upLeftLiftyCommand);
     // upRightLiftyButton.whileHeld(m_upRightLiftyCommand);
