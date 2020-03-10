@@ -35,8 +35,11 @@ public class ShootCloseRange extends CommandBase {
     double triggerAxisLeft = m_xbox.getRawAxis(2);
     if(triggerAxisLeft >= 0.05) {
       m_shootyThing.sucky(-triggerAxisLeft);
+    } else {
+      m_shootyThing.sucky(0.0);
     }
-    m_shootyThing.shooty();
+    // m_shootyThing.shooty();
+    m_shootyThing.setShootyCloseRangeVelocity();
   }
 
   // Called once the command ends or is interrupted.

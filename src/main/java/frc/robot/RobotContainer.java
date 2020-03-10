@@ -133,14 +133,14 @@ public class RobotContainer {
     clawOneOnButton = new JoystickButton(m_climbingJoystick, 5);
     clawTwoOnButton = new JoystickButton(m_climbingJoystick, 4);
     liftPistonOnButton = new JoystickButton(m_climbingJoystick, 1);
-    frontGateOnButton = new XboxButton(driveController, Button.BumperRight);
+    //frontGateOnButton = new XboxButton(driveController, Button.BumperRight);
     // backGateOnButton = new XboxButton(driveController, Button.BumperLeft);
     upLeftLiftyButton = new JoystickButton(m_climbingJoystick, 3);
     // upRightLiftyButton = new JoystickButton(m_climbingJoystick, 8);
     downLeftLiftyButton = new JoystickButton(m_climbingJoystick, 2);
     // downRightLiftyButton = new JoystickButton(m_climbingJoystick, 9);
     aimingButton = new XboxButton(driveController, Button.A);
-    variableShootyButton = new XboxButton(driveController, Button.StickRight);
+    variableShootyButton = new XboxButton(driveController, Button.Start);
     // shootyButton.toggleWhenPressed(m_shootyCommand);
    // suckyButton.toggleWhenPressed(m_suckyCommand);
     spinnyClockButton.whileHeld(m_rightspinnyCommand);
@@ -180,6 +180,10 @@ public class RobotContainer {
      case driveStraight:
        autoCommand = m_driveStraightAutoCommand;
        break;
+      case nearSide:
+        break;
+      case inFrontOfCargoBay:
+        break;
      default:
        break;
   }

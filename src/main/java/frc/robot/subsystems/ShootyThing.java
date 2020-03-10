@@ -80,6 +80,7 @@ public class ShootyThing extends SubsystemBase {
   public void shooty(){
     shootyMotor.set(ControlMode.PercentOutput, 0.7);
     //put Limelight stuff in later
+    System.out.println(getShootyEncoderVel());
   }
 
   public void shootyVariable(double speed) {
@@ -139,7 +140,7 @@ public class ShootyThing extends SubsystemBase {
     } else if(isSensorsTriggered) {
         suckyStop();
     } else if( isSensorsNotTriggered) {
-        sucky(-0.4);
+        sucky(-0.70);
     }
     
   }
@@ -185,6 +186,13 @@ public class ShootyThing extends SubsystemBase {
     double targetVelocity = 15800;
     shootyMotor.set(TalonFXControlMode.Velocity, targetVelocity);
     System.out.println("Shooting Motor Velocity: " + getShootyEncoderVel());
+  }
+
+  public void setShootyCloseRangeVelocity() {
+    double targetVelocity = 14500;
+    shootyMotor.set(TalonFXControlMode.Velocity, targetVelocity);
+    System.out.println("Shooting Motor Velocity: " + getShootyEncoderVel());
+
   }
 
   public void setShooty33FeetVelocity() {

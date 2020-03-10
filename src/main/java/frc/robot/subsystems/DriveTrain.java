@@ -135,8 +135,8 @@ public class DriveTrain extends SubsystemBase {
     motor3.follow(motor1);
     motor4.follow(motor2);
     motor4.clearStickyFaults();
-    motor1.configOpenloopRamp(1.5, 20);
-    motor2.configOpenloopRamp(1.5, 20);
+    motor1.configOpenloopRamp(0.95, 20);
+    motor2.configOpenloopRamp(0.95, 20);
     // frontBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.frontBallGate);
     // backBallGate = new Solenoid(Constants.pcmChannel,Constants.Lifty.backBallGate);
     // frontBallGate.set(false);

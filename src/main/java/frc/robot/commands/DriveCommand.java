@@ -50,7 +50,7 @@ public class DriveCommand extends CommandBase {
     if(Math.abs(joyTurn) < 0.1) {
       joyTurn = 0.0;
     }
-    m_drivetrain.setArcadeDrive(0.7*joyForward, 0.7 * joyTurn);
+    m_drivetrain.setArcadeDrive(0.7*joyForward, 0.6 * joyTurn);
     // if(Math.abs(joyForward) < 0.1) {
     //   m_drivetrain.setArcadeDrive(sliderValue * joyForward, joyTurn, true);
     // } else {
