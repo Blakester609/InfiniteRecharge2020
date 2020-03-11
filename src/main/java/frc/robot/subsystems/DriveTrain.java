@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+//Also includes Limelight stuffs.
 public class DriveTrain extends SubsystemBase {
   private final WPI_TalonFX motor1;
   private final WPI_TalonFX motor2;
@@ -307,13 +308,15 @@ public void aimTowardsTarget(final double speed) {
     distance = this.getData().yOffset;
     return distance;
   }
-
+  
   public void aimingInRange(double driveAdjust, final double heading){
     driveAdjust = Constants.Limelight.kpDistance * driveAdjust;
     System.out.println("Heading error: " + getHeadingError(heading));
     System.out.println("driveAdjustment: " + driveAdjust);
     setArcadeDrive(-driveAdjust, getHeadingError(heading));
   }
+  //A good chunk of this last part is methods that we created for PathWeaver, which we didn't end up doing.
+  //PathWeaver is designed for robot code that uses the DifferentialDrive class. 
   @Override
   public void periodic() {
     odometry.update(Rotation2d.fromDegrees(getHeading()), leftEncoderPosition.get(), rightEncoderPosition.get());
@@ -352,7 +355,4 @@ public void aimTowardsTarget(final double speed) {
   public void zeroHeading(){
     navx.reset();
   }
-
-
-
 }

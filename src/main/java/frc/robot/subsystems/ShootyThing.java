@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+//Includes code for intake mechanism, outtake mechanism, and turret
 public class ShootyThing extends SubsystemBase {
   // This class is full of errors because I don't know what kind of motors the robot has yet. They'll be taken care of later.
   private WPI_TalonFX shootyMotor;
@@ -50,7 +51,7 @@ public class ShootyThing extends SubsystemBase {
     topSensor = new DigitalInput(Constants.Shooty.topShooterSensorPort);
     shootyMotor.configFactoryDefault();
     // shootyMotor.setSensorPhase(true);
-    
+    //ShootyMotor is a Talon FX and has built in encoders. So many possiblities.
     shootyMotor.setInverted(TalonFXInvertType.Clockwise);
     shootyMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.PIDConstantsShooter.pidSlot0, Constants.PIDConstantsShooter.kTimeoutMS);
     // shootyMotor.configVoltageCompSaturation(11);
@@ -65,9 +66,7 @@ public class ShootyThing extends SubsystemBase {
 		shootyMotor.configNominalOutputReverse(0, Constants.PIDConstantsShooter.kTimeoutMS);
 		shootyMotor.configPeakOutputForward(1, Constants.PIDConstantsShooter.kTimeoutMS);
 		shootyMotor.configPeakOutputReverse(-1, Constants.PIDConstantsShooter.kTimeoutMS);
-
-
-     shootyMotor.clearStickyFaults();
+    shootyMotor.clearStickyFaults();
     shootyMotor.setNeutralMode(NeutralMode.Brake);
     colorSensor = new ColorSensorV3(Port.kOnboard);
     colorSensor2 = new ColorSensorV3(Port.kMXP);
@@ -181,7 +180,7 @@ public class ShootyThing extends SubsystemBase {
   public double getShootingMotorSpeed() {
     return shootyMotor.get();
   }
-  
+  //Velocity needs to different for each range or else it won't work.
   public void setShooty22FeetVelocity() {
     double targetVelocity = 15800;
     shootyMotor.set(TalonFXControlMode.Velocity, targetVelocity);

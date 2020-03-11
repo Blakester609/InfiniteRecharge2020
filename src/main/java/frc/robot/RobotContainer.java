@@ -54,7 +54,7 @@ public class RobotContainer {
   private final ShootyThing m_shootyThing = new ShootyThing();
 
   private final DriveTrain m_driveTrain = new DriveTrain();
- private final DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, driveController); 
+  private final DriveCommand m_driveCommand = new DriveCommand(m_driveTrain, driveController); 
   private final SimpleAuton m_autoCommand = new SimpleAuton(m_driveTrain, m_shootyThing);
   private final SimpleAutonomousTwo m_basicAuto = new SimpleAutonomousTwo(m_driveTrain, m_shootyThing);
   private final SimpleAutonomousTwoShooty m_shootyAuto = new SimpleAutonomousTwoShooty(m_shootyThing);
@@ -75,7 +75,7 @@ public class RobotContainer {
   private final LeftLiftyCommand m_upLeftLiftyCommand = new LeftLiftyCommand(m_liftyThing, "up"); 
   private final AimingCommandTwo m_aiming = new AimingCommandTwo(m_driveTrain);
   private final ShootCloseRange m_shootCloseRange = new ShootCloseRange(m_shootyThing, driveController);
-
+  //Box where autonomous selection occurs is created here.
   private SendableChooser<String> autonomousChooser = new SendableChooser<>();
   Command autoCommand = m_basicAuto;
   String selectedAuto;
@@ -92,7 +92,7 @@ public class RobotContainer {
     // CommandScheduler.getInstance().setDefaultCommand(m_shootyThing, m_variableShootingSpeedCommand);
     // Configure the button bindings
     selectedAuto = "";
-   
+   //Allows you to select an autonomous routine from Shuffleboard
    autonomousChooser.addOption("Power Generator Auto", inFrontOfPowerGenerator);
    autonomousChooser.addOption("Cargo Bay Auto", inFrontOfCargoBay);
    autonomousChooser.addOption("Near Side Auto", nearSide);
@@ -151,6 +151,7 @@ public class RobotContainer {
     // Happiness.bananas; #forbreakfast:/Fix
     shootyButton.whileHeld(m_setLauncherVelicityFarTrench);
     spinnyCounterclockButton.whileHeld(m_leftspinnyCommand);
+    //The next three lines allow you to create an instant command, or a command that would only take up one line in a command interface. Convenience feature.
     clawOneOnButton.whenPressed(new InstantCommand(m_liftyThing::clawOneSolenoidOn, m_liftyThing));
     clawTwoOnButton.whenPressed(new InstantCommand(m_liftyThing::clawTwoSolenoidOn, m_liftyThing));
     liftPistonOnButton.whenPressed(new InstantCommand(m_liftyThing::setLiftStopPiston, m_liftyThing));
@@ -171,6 +172,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+  //This is where the actual logic involving autonomous selection on Shuffleboard occurs.
  public Command getAutonomousCommand() {
   selectedAuto = autonomousChooser.getSelected();
   switch (selectedAuto) {

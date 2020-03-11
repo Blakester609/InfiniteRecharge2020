@@ -4,7 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
+//This is a failed class because the Trajectory class is made for DifferentialDrive robots.
 package frc.robot.commands;
 
 import java.io.IOException;

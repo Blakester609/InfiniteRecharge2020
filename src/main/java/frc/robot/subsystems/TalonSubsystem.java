@@ -21,9 +21,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * Add your docs here.
- */
+//Talon stuffs
 public class TalonSubsystem extends SubsystemBase {
 
   public static class TalonPIDConfig {

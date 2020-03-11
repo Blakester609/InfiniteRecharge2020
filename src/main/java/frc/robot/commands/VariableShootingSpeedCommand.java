@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShootyThing;
-
+//This command is used to adjust the speed of shooting.
 public class VariableShootingSpeedCommand extends CommandBase {
   /**
    * Creates a new VariableShootingSpeedCommand.
